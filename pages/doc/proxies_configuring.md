@@ -7,32 +7,12 @@ permalink: proxies_configuring.html
 summary: Proxy files, logs, and configuration properties
 ---
 
-<!---Do we want to doc the following?
-graphiteFieldsToRemove
-
-pushRateLimitMaxBurstSeconds
-httpMaxConnTotal
-httpMaxConnPerRoute
-authMethod
-authTokenIntrospectionServiceUrl
-authTokenIntrospectionAuthorizationHeader
-authResponseRefreshInterval
-authResponseMaxTtl
-authStaticToken
-
-traceListenerMaxReceivedLength
-traceAlwaysSampleErrors
-histogramMinuteAccumulatorPersisted
-histogramHourAccumulatorPersisted
-histogramDayAccumulatorPersisted
-histogramDistAccumulatorPersisted
---->
 
 Even without additional customization the Wavefront proxy ingests metrics and forwards them to the Wavefront service in a secure, fast, and reliable manner. If needed, you can customize your proxy.
 
 * **Proxy configuration properties** allow you to changing how the proxy processes your data. For example, you can change ports or perform other advanced installation management.
 * **[Proxy preprocessor rules](proxies_preprocessor_rules.html)** allow you to manipulate incoming metrics before they reach the proxy, for example, you could remove confidential text strings or replace unacceptable characters.
-* **Log files** might give information on what's going on.
+* **Log files** can help in case of problems.
 
 <a name="paths">
 ## Proxy File Paths
@@ -129,19 +109,21 @@ You can log all the raw blocked data separately or log different entities into t
           # Add this if you added the appender for spans in the log4j2.xml file.
           blockedSpansLoggerName = RawBlockedSpans (RawBlockedPoints by default)
         ```
-    {%include warning.html content ="You must update the `<wavefront_log_path>/log4j2.xml` file and the `<wavefront_config_path>/wavefront.conf` file to get separate log files for blocked entities."%}
+    {%include tip.html content ="You must update both the `<wavefront_log_path>/log4j2.xml` file and the `<wavefront_config_path>/wavefront.conf` file to get separate log files for blocked entities."%}
 
     <a name="docker"></a>
 
-## Configure a Proxy in a Container
+## Configure a Proxy in a Docker Container
 
 You can use the in-product Docker with cAdvisor or Kubernetes integration if you want to set up a proxy in a container. You can then customize that proxy.
+
+{%include note.html content ="This section deals primarily with Docker. "%}
 
 ### Proxy Versions for Containers
 For containers, the proxy image version is determined by the `image` property in the configuration file. You can set this to `image: wavefronthq/proxy:latest`, or specify a proxy version explicitly.
 The proxies are not stateful. Your configuration is managed in your `yaml` file. It's safe to use  `proxy:latest` -- we ensure that proxies are backward compatible.
 
-### Restrict Memory Usage for the Container
+### Restrict Memory Usage for a Docker Container
 
 To restrict memory usage of the container using Docker, you need to add a `JAVA_HEAP_USAGE` environment variable and restrict memory using the `-m` or `--memory` options for the docker `run` command.  The container memory contraint should be at least 350mb larger than the JAVA_HEAP_USAGE environment variable.
 

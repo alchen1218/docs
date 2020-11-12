@@ -20,8 +20,6 @@ We offer several [deployment options](proxies.html#proxy-deployment-options). Du
 <a name="single"></a>
 ## Install a Proxy
 
-## Install a Proxy
-
 Many users install a proxy when they set up an integration. You can also install a proxy from the UI or perform a scripted installation.
 
 {% include note.html content="In development, many customers use only one proxy that receives data from many applications and sends those data to the Wavefront service. In production, consider using two proxies behind a load balancer. See [Proxy Deployment Options](proxies.html#proxy-deployment-options)." %}
