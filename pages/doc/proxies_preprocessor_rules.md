@@ -22,11 +22,12 @@ You can limit when a rule applies using the `if` parameter (proxy 7.0 and later)
 
 ## Rule Configuration File
 
-You define the proxy preprocessor rules in a rule configuration file, usually `<wavefront_config_path>/preprocessor_rules.yaml`, using YAML syntax. You can specify rule filenames in your [proxy configuration](proxies_configuring.html#proxy-configuration).
+You define the proxy preprocessor rules in a rule configuration file (`<wavefront_config_path>/preprocessor_rules.yaml` by default), using YAML syntax. A [sample rule configuration file](https://github.com/wavefrontHQ/wavefront-proxy/preprocessor_rules.yaml.default) is on Github.
 
-<!--- HELP! That link doesn't give me enough info on where the rule lives and how to change its name. --->
+You can specify a rule filepath in your [proxy configuration file](proxies_configuring.html#proxy-configuration).
 
-An example rule file could look like this:
+
+Here's an example:
 
 ```yaml
 # rules for port 2878
@@ -75,25 +76,22 @@ Additional parameters depend on the rule that you're defining, for example, an `
 ## Enabling the Preprocessor
 
 To enable the preprocessor:
-1. Add (or uncomment) the `preprocessorConfigFile` property in the [Wavefront proxy configuration file](proxies_configuring.html).
-<!---HELP again, need to be clearer on file name/location & possible rename--->
+1. Uncomment the `preprocessorConfigFile` property in the [Wavefront proxy configuration file](proxies_configuring.html).
 2. Set `preprocessorConfigFile` to a valid path to the rules configuration file.
 
-### Validation and Changes to the Preprocessor File
+### Validation and Changes to the Rule File
 
-The rules file is validated when the proxy starts. The proxy aborts the start-up process if any of the rules is not valid. We provide a detailed error message for every rule that fails validation.
+The rules file is validated when the proxy starts. The proxy aborts the start-up process if any of the rules is not valid. A detailed error message for every rule that fails validation results. For earlier versions of the proxy, you have to [restart the proxy](proxies_installing.html#start-and-stop-a-proxy) before the changes take effect.
 
-Starting with proxy version 5.0, changes to the preprocessor file take effect shortly after you save the file.
+Changes to the preprocessor rule file take effect shortly after you save the file.
 
-For earlier versions of the proxy, you have to [restart the proxy](proxies_installing.html#start-and-stop-a-proxy) before the changes take effect.
+### Metrics for Preprocessor Rules
 
-### Metrics for Rules
-
-For every rule, the Wavefront proxy reports the counter metric`~proxy.preprocessor.<ruleID>.count`. The rule ID becomes part of the proxy metric, for example, `~proxy.preprocessor.replace-badchars.count`. See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details.
+For every rule, the Wavefront proxy reports the counter metric `~proxy.preprocessor.<ruleID>.count`. The rule ID becomes part of the proxy metric, for example, `~proxy.preprocessor.replace-badchars.count`. See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details.
 
 ## Point Filtering Rules
 
-Point filtering rules support a more flexible version of the proxy [`allow` list and `block` list](proxies_configuring.html#proxy-configuration) properties, and is fully backwards compatible.
+Point filtering rules support a more flexible version of the proxy [`allow` list and `block` list](proxies_configuring.html#proxy-configuration) configuration properties.
 
 ### block
 
@@ -1219,5 +1217,6 @@ Available action subtypes are `truncate`, `truncateWithEllipsis`, and `drop`.
     actionSubtype : truncateWithEllipsis
     maxLength     : "128"
 ```
-## Next Steps
-To apply the Wavefront proxy preprocessor rules when certain conditions are met, [add preprocessor rule conditions](proxies_preprocessor_rule_conditions.html)
+## See Also
+
+If you want to apply the Wavefront proxy preprocessor rules only when certain conditions are met, [add preprocessor rule conditions](proxies_preprocessor_rule_conditions.html).
