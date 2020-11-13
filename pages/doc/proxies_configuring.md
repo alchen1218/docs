@@ -10,9 +10,9 @@ summary: Proxy files, logs, and configuration properties
 
 Even without additional customization the Wavefront proxy ingests metrics and forwards them to the Wavefront service in a secure, fast, and reliable manner. If needed, you can customize your proxy.
 
-* **Proxy configuration properties** allow you to changing how the proxy processes your data. For example, you can change ports or perform other advanced installation management.
+* **[Proxy configuration properties](#configuration-properties)** allow you to changing how the proxy processes your data. For example, you can change ports or perform other advanced installation management.
 * **[Proxy preprocessor rules](proxies_preprocessor_rules.html)** allow you to manipulate incoming metrics before they reach the proxy, for example, you could remove confidential text strings or replace unacceptable characters.
-* **Log files** can help in case of problems.
+* **[Log files](#logging)** can help in case of problems.
 
 <a name="paths">
 ## Proxy File Paths
@@ -117,7 +117,7 @@ You can log all the raw blocked data separately or log different entities into t
 
 You can use the in-product Docker with cAdvisor or Kubernetes integration if you want to set up a proxy in a container. You can then customize that proxy.
 
-{%include note.html content ="This section deals primarily with Docker. "%}
+{%include note.html content ="This section deals primarily with Docker. For Kubernetes, see the Kubernetes integration and [Kubernetes doc pages](label_kubernetes.html) "%}
 
 ### Proxy Versions for Containers
 For containers, the proxy image version is determined by the `image` property in the configuration file. You can set this to `image: wavefronthq/proxy:latest`, or specify a proxy version explicitly.
@@ -141,7 +141,7 @@ For example, add `-e WAVEFRONT_PROXY_ARGS="--pushRateLimit 1000"` to your docker
 
 See the [Wavefront Proxy configuration file](https://github.com/wavefrontHQ/java/blob/master/pkg/etc/wavefront/wavefront-proxy/wavefront.conf.default) for a full list.
 
-### Log Customization for Containers
+### Log Customization for Docker Containers
 
 You can customize logging by mounting a customized `log4j2.xml` file. Here's an example for Docker:
 
@@ -152,6 +152,8 @@ You can customize logging by mounting a customized `log4j2.xml` file. Here's an 
 See **Logging** above for additional background.
 
 ## Configuration Properties
+
+This section gives details on proxy configuration properties. All properties are also listed, in the [wavefront.conf.default file](https://github.com/wavefrontHQ/wavefront-proxy/blob/master/pkg/etc/wavefront/wavefront-proxy/wavefront.conf.default) on Github. 
 
 ### Authentication Properties
 

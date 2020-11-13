@@ -82,13 +82,13 @@ You can modify proxy behavior in several ways:
 
 ![Proxy configuration options](/images/proxy_config_options_rev.png)
 
-This diagram also includes source tags and source descriptions, which the proxy uses to filter the input before it reaches the Wavefront service. For example, you could change or remove special characters. See [Sending Source Tags and Source Descriptions Through the Wavefront Proxy](proxies_configuring.html#sending-source-tags-and-source-descriptions-through-the-wavefront-proxy).
 
 ## Supported Data Formats
 
 Wavefront proxies support:
-* Time-series metrics
+
+* Time-series and delta counter metrics
 * Histograms
 * Traces/spans
 
-Each type of data uses a different data format. See [Wavefront Data Format](wavefront_data_format.html) for details and links.
+Each [type of data](metric_types.html) uses a different [data format](wavefront_data_format.html).
