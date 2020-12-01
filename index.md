@@ -1,5 +1,5 @@
 ---
-title: Tanzu Observability by Wavefront Documentation - docs 63
+title: Tanzu Observability by Wavefront Documentation - 63
 keywords: homepage
 labels: getting started
 sidebar: doc_sidebar
