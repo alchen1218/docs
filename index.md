@@ -1,5 +1,5 @@
 ---
-title: Tanzu Observability by Wavefront Documentation - 63 again 1 2 3 4 5 6 7 8 9 10 11 12 13
+title: Tanzu Observability by Wavefront Documentation - from alchen's branch - from docs-63
 keywords: homepage
 labels: getting started
 sidebar: doc_sidebar
