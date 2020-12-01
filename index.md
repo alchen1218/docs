@@ -1,5 +1,5 @@
 ---
-title: Tanzu Observability by Wavefront Documentation - branch docs-64
+title: Tanzu Observability by Wavefront Documentation - branch docs-64 - 1
 keywords: homepage
 labels: getting started
 sidebar: doc_sidebar
