@@ -71,7 +71,7 @@ Get an overview of how the applications and services are linked, understand the 
 ### Service Dashboards
 
 The default, read-only [dashboard for a service](tracing_service_dashboard.html) lets you explore trace data sent by each service in your application.
-![service dahsboard](/images/service_dashboard_intro.png)
+![service dashboard](/images/service_dashboard_intro.png)
 
 ### Traces Browser
 
