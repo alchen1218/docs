@@ -4,20 +4,21 @@ keywords: data, distributed tracing, adpex
 tags: [tracing]
 sidebar: doc_sidebar
 permalink: tracing_apdex.html
-summary: 
+published: false
+summary: Get an overview of how the Apdex score is calculated and Configure Apdex Settings.
 ---
 
-The Application Performance Index ([Apdex](https://www.apdex.org/overview.html)) is an industry standard that can help you understand how the response time of a service compares to a predefined response time threshold. 
+The Application Performance Index ([Apdex](https://www.apdex.org/overview.html)) is an industry standard that can help you understand how the response time of a service compares to a predefined response time threshold.
 
 ## Overview
 
 You can measure the performance of a service using Request, Error, and Duration (RED) metrics for a given time frame. But it is hard to compare these values and understand how each service performs. Apdex helps you compare the response time of a service based on the response time threshold that you define.
 
-When you send your applications trace data to Wavefront, the application data is detected as first-class citizens using the traces, and the Apdex score is calculated using the threshold value (T) you define. Use [`apdex()`](hs_apdex_function.html) to query the Apdex score of a service, view the results in charts, and create alerts. 
+When you send your applications trace data to Wavefront, the application data is detected as first-class citizens using the traces, and the Apdex score is calculated using the threshold value (T) you define. Use [`apdex()`](hs_apdex_function.html) to query the Apdex score of a service, view the results in charts, and create alerts.
 
 The default threshold value (T) is set to 100ms, and only [Super Admin users](authorization.html#who-is-the-super-admin-user) can configure the threshold (T).
 
-### Apdex score 
+### Apdex score
 
 The Apdex score is calculated using the following equation:
 
@@ -79,29 +80,35 @@ The table below defines the terms used in the equation.
 
 ### Interpreting the Apdex Score
 
-The Apdex score is a value between 0 to 1. 
-* If the score is 0, none of the requests of the service satisfied the response time threshold (T) you defined. 
+The Apdex score is a value between 0 to 1.
+* If the score is 0, none of the requests of the service satisfied the response time threshold (T) you defined.
 * If the score is 1, all the requests of the service satisfy T.
 
 Wavefront uses the following Apdex score range to help you understand how your service is performing:
 
 {% include note.html content="The Apdex score is rounded to two decimal points." %}
 
-<table style="width: 60%;">
+<table style="width: 70%;">
   <tr>
-    <th width="30%">
+    <th width="20%">
       Range
     </th>
     <th width="30%">
       Service Performance
     </th>
+    <th width="20%">
+      Color
+    </th>
   </tr>
   <tr>
     <td>
-      0.94 - 1 
+      0.94 - 1
     </td>
     <td>
       Excellent
+    </td>
+    <td>
+      <img src="images/tracing_apdex_excellent.png" alt="blue for Excellent" style="vertical-align:top;"/>
     </td>
   </tr>
   <tr>
@@ -111,6 +118,9 @@ Wavefront uses the following Apdex score range to help you understand how your s
     <td>
       Good
     </td>
+    <td>
+      <img src="images/tracing_apdex_good.png" alt="blue for Excellent" style="vertical-align:top;"/>
+    </td>
   </tr>
   <tr>
     <td>
@@ -118,6 +128,9 @@ Wavefront uses the following Apdex score range to help you understand how your s
     </td>
     <td>
       Fair
+    </td>
+    <td>
+      <img src="images/tracing_apdex_fair.png" alt="blue for Excellent" style="vertical-align:top;"/>
     </td>
   </tr>
   <tr>
@@ -127,13 +140,19 @@ Wavefront uses the following Apdex score range to help you understand how your s
     <td>
       Poor
     </td>
+    <td>
+      <img src="images/tracing_apdex_poor.png" alt="blue for Excellent" style="vertical-align:top;"/>
+    </td>
   </tr>
   <tr>
-    <td> 
+    <td>
       0.49 - 0
     </td>
     <td>
-      Bad
+      Unacceptable
+    </td>
+    <td>
+      <img src="images/tracing_apdex_unacceptable.png" alt="blue for Excellent" style="vertical-align:top;"/>
     </td>
   </tr>
 </table>
@@ -159,6 +178,8 @@ Based on the Apdex score, you now know that the performance of the `shopping` se
 * Using the **Application Configuration** page.
 * Using the legend on the application status page that has the application map, table view, or grid view.
 
+{% include note.html  content="When the response time threshold (T) of a service is updated, the Apdex score is recalculated using the new T."%}
+
 ### Update the Application Configuration Page
 
 Follow these steps:
@@ -170,7 +191,7 @@ Follow these steps:
     ![The image shows where to click to edit the threshold value.](images/tracing_apdex_configuration_edit_service.png)
 1. Update the **Threshold** value and click **Save**.
     ![The image shows where to update the threshold value. It has a blue outline to highlight the threshold value.](images/tracing_configure_apdex_threshold.png)
-    
+
 ### Update the Legend on the Application Status Page
 
 You can update the response time threshold (T) using the Settings icon on the app map, table view, or grid view on the Application Status page.
@@ -186,7 +207,7 @@ You can update the response time threshold (T) using the Settings icon on the ap
     ![The image shows where to click to edit the threshold value.](images/tracing_edit_service_legend_settings.png)
 1. Update the **Threshold** value and click **Save**.
     ![The image shows where to update the threshold value. It has a blue outline to highlight the threshold value.](images/tracing_configure_apdex_threshold.png)
- 
+
 ## See Also
 
 * Learn how to use the [apdex()](hs_apdex_function.html) function, to see Apdex score data on charts, and create alerts.

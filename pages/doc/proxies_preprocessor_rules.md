@@ -73,6 +73,36 @@ Additional parameters depend on the rule that you're defining, for example, an `
 -   Regex patterns in the `match` parameter are a full match. For example, a regex to block the point line that contains `stage` substring is `.*stage.*`.
 -   Regex patterns in the `replaceRegex` rule `search` parameter are a substring match. If `search` is "A" and `replace` is "B", all A's are replaced with B's.
 
+### Applying Rules to Multiple Ports
+
+A preprocessor rule typically specifies rules for a specific port. The example above specifies the rule for port 2878. Starting with proxy v7.x, you can:
+* Use the `global` keyword to specify rules for all ports. For example:
+
+```
+   # rules that apply to all ports
+   'global':
+
+     # Example no-op rule
+     #################################################################
+     - rule    : example-rule-do-nothing
+       action  : count
+```
+
+* Specify rules for multiple ports with a comma-separated list. For example:
+
+```
+   ## Multiport preprocessor rules
+   ## The following rules will apply to ports 2979, 2980 and 4343
+
+   '2979, 2980, 4343':
+
+     ## Add k8s cluster name point tag for all points across multiple ports.
+     #- rule    : example-rule-delete-merenametag-k8s-cluster
+     #  action  : addTag
+     #  tag     : k8scluster
+     #  value   : eks-dev
+```
+
 ## Enabling the Preprocessor
 
 To enable the preprocessor:

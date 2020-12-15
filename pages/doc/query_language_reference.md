@@ -269,13 +269,18 @@ Example:
 source="appServer15"   // include only data from a source called appServer15
 </pre>
 </li>
-
-<li>Use  <strong>!=</strong> to specify a filter that is set to any value except the specified value.
-Example:
+<li>Use  <strong>!=</strong> to specify a filter that is set to any value except the specified value. Example
 <pre>
 source!="appServer15"  // include data from any source except appServer15
 </pre>
 </li>
+<li>Use  <strong>?=</strong> to get everything that has mytagvalue or doesn't have myTagKey.
+Example:
+<pre>
+myTagKey?="mytagvalue" // everything that has mytagvalue or doesn't have myTagKey
+</pre>
+</li>
+
 </ul>
 
 
@@ -911,7 +916,7 @@ These functions output continuous time series, with the exception of `integral()
 
 ## Missing Data Functions
 
-Missing data functions allow you to interpolate data points in time series that have gaps.
+Missing data functions allow you to interpolate data points in time series that have gaps. To check for missing functions see the [`missing()` function](ts_missing.html) and the [`exists()` function](ts_exists.html).
 
 <table style="width: 100%;">
 <colgroup>
@@ -1349,7 +1354,7 @@ Predictive functions enable you to forecast data values and find outlier data va
 </td>
 <td>Checks whether there are any data points in the specified time window.<ul>
 <li>If there are no data points, returns 1.</li>
-<li>Otherwise, returns a Double.NaN (i.e. empty time series)</li>
+<li>Otherwise, returns 0.</li>
 </ul></td>
 </tr>
 <tr>
@@ -1524,6 +1529,11 @@ Each histogram output conversion function in the following table takes a time se
 <tr>
 <td><a href="ts_cumulativeHisto.html">cumulativeHisto(&lbrack;<strong>timeWindow</strong>&rbrack;, &lbrack;<strong>&lt;bucketName&gt;, </strong> &rbrack; <strong>&lt;tsExpression&gt;</strong> &lbrack;<strong>,metrics|sources|sourceTags|pointTags|&lt;pointTagKey&gt;</strong> &rbrack;)</a></td>
 <td>Returns a cumulative histogram that comes, for example, from Prometheus or Telegraf, in Wavefront. You can then visualize the histogram in Wavefront charts using functions such as <strong>percentile</strong>.
+</td>
+</tr>
+<tr>
+<td><a href="ts_frequencyHisto.html">frequencyHisto(&lbrack;<strong>timeWindow</strong>&rbrack;, &lbrack;<strong>&lt;bucketName&gt;, </strong> &rbrack; <strong>&lt;tsExpression&gt;</strong> &lbrack;<strong>,metrics|sources|sourceTags|pointTags|&lt;pointTagKey&gt;</strong> &rbrack;)</a></td>
+<td>Converts a histogram coming from Google Cloud Platform(GCP) to Wavefront histogram format. When GCP Detailed Histogram Metrics is enabled, Wavefront will additionally ingest bucket counts for GCP distributions, with metric namegcp.&lt;metric&gt;.bucket. Enabling this increases ingestion rate and cost.
 </td>
 </tr>
 
@@ -1747,6 +1757,7 @@ You use spans functions to find and filter individual [spans](tracing_basics.htm
 </tbody>
 </table>
 
+<!---
 ## <span id="apdexFunctions"></span>Apdex Functions
 
 You can use the basic or advanced `apdex()` function to get the apdex score of a specific service.
@@ -1766,21 +1777,13 @@ You can use the basic or advanced `apdex()` function to get the apdex score of a
 
 <tr>
 <td>
-<a href="hs_apdex_function.html">apdex(<strong>&lt;applicationName&gt;, &lt;serviceName&gt;</strong>
-<br> [,|and|or [not] <strong>&lt;T&gt;, &lt;4T&gt;</strong>, <strong>&lt;filterName&gt;</strong>="<strong>&lt;filterValue&gt;</strong>"] ...)</a>
+<a href="hs_apdex_function.html">apdex([T, | T, 4T, ]<strong>application=&lt;applicationName&gt;</strong>, <strong>service=&lt;serviceName&gt;</strong>, <strong>&lbrack; &lt;histogramSeries&gt;&rbrack;</strong></a>
 </td>
-<td markdown="span">The basic `apdex()` query that returns the apdex score of a specific service over time.</td>
+<td markdown="span">Returns the apdex score of a specific service over time. Optionally supports histogram series.  </td>
 </tr>
 <tr>
-<td><a href="hs_apdex_function.html">apdex(<strong>&lt;hsExpression&gt;</strong>
-<br> [,|and|or [not] <strong>&lt;applicationName&gt;, &lt;serviceName&gt;, &lt;T&gt;, &lt;4T&gt;</strong>,<strong>&lt;filterName&gt;</strong>="<strong>&lt;filterValue&gt;</strong>"] ...)</a></td>
-<td markdown="span">The advanced `apdex()` query that returns the apdex score of a specific service.
-</td>
-</tr>
-<tr>
-<td><a href="hs_apdex_latency_function.html">apdexLatency(<strong>&lt;applicationName&gt;, &lt;serviceName&gt;</strong>
-<br> [,|and|or [not] <strong>satisfied, tolerating</strong>)</a></td>
-<td markdown="span">Returns the satisfied threshold (T) and the tolerating threshold, which is four time the satisfied threshold.
+<td><a href="hs_apdex_latency_function.html">apdexLatency(<strong>application=&lt;applicationName&gt;, service=&lt;serviceName&gt;</strong> <strong>&lbrack;satisfied | tolerating&rbrack;</strong>)</a></td>
+<td markdown="span">Returns the apdex threshold defined for the service or application.
 </td>
 </tr>
 </tbody>
@@ -1791,3 +1794,5 @@ You can use the basic or advanced `apdex()` function to get the apdex score of a
 <tr><td width="90%">&nbsp;</td><td width="10%"><a href="query_language_reference.html"><img src="/images/to_top.png" alt="click for top of page"/></a></td></tr>
 </tbody>
 </table>
+
+--->
