@@ -115,6 +115,19 @@ The rules file is validated when the proxy starts. The proxy aborts the start-up
 
 Changes to the preprocessor rule file take effect shortly after you save the file.
 
+### Interactive Testing of Preprocessor Rules
+
+You can test a preprocessor rule before sending data to Wavefront using `-testPreprocessorForPort <port>`.
+
+To run the proxy in test mode in your terminal:
+
+```shell
+/opt/wavefront/wavefront-proxy/proxy-jre/bin/java -jar /opt/wavefront/wavefront-proxy/bin/wavefront-push-agent.jar \
+  -f /etc/wavefront/wavefront-proxy/wavefront.conf --testPreprocessorForPort 2878
+```
+
+
+
 ### Metrics for Preprocessor Rules
 
 For every rule, the Wavefront proxy reports the counter metric `~proxy.preprocessor.<ruleID>.count`. The rule ID becomes part of the proxy metric, for example, `~proxy.preprocessor.replace-badchars.count`. See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details.
