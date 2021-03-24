@@ -36,7 +36,7 @@ To snooze or unsnooze one or more alerts:
 <td width="50%">
 To snooze or unsnooze a single alert:
 <ol><li>Click <strong>Alerting</strong> from the taskbar. </li>
-<li>Click the ellipsis icon on the left of the alert and select <strong>Snooze &gt; Duration</strong>.</li>
+<li>Click the ellipsis icon on the left of the alert and select <strong>Snooze &gt; &lt;Duration&gt;</strong>.</li>
 <li>To unsnooze the alert, click the ellipsis icon on the left of the alert and select <strong>Unsnooze</strong>.</li>
 </ol></td>
 <td width="50%"><img src="/images/snooze_single.png" alt="Alert ellipsis menu with Snooze selected and snooze time options"></td>
@@ -70,7 +70,7 @@ Creating a maintenance window consists of these simple steps discussed below:
 
 1. Specify required fields including description and start and end dates.
 2. Narrow down the scope. By default, no alerts fire during the maintenance window. You can target only alerts specific alerts, for example, alerts for sources or environments that will be in maintenance.
-<!---3. Optionally, specify an alternate alert target during the maintenance window. By default, no notifications are sent during the maintenance window.--->
+3. Optionally, specify an alternate alert target during the maintenance window. By default, no notifications are sent during the maintenance window.
 
 #### Step 1: Specify Required Maintenance Window Fields
 
@@ -84,18 +84,18 @@ Creating a maintenance window consists of these simple steps discussed below:
 
 #### Step 2: Narrow Down the Scope
 
-By default, the maintenance window stops all alerts during the specified time. Usually, you'll want to stop only alerts from a specific set of sources, or in a certain availability zone or environment. For example, you could specify a set of hosts that you expect to take down, or decide not to alert for a certain point tag (e.g. env=dev). You could also specify a set of sources with a certain source tag, for example, if you know that an availability zone will be temporarily offline.
+By default, the maintenance window stops all alerts during the specified time. Usually, you'll want to stop only alerts from a specific set of sources, or in a certain availability zone or environment. For example, you could specify a set of hosts that you expect to take down, or decide not to alert for a certain point tag (e.g., env=dev). You could also specify a set of sources with a certain source tag, for example, if you know that an availability zone will be temporarily offline.
 
 Specify one or more of the following:
 
 <ul>
 <li><strong>Alert Tags: </strong>Type one or more alert tag names to suppress any alert that has one or more specified <a href="tags_overview.html">alert tags</a>. All alerts are included if you don't specify alert tags. </li>
-<!---<li><strong>Point Tags: </strong>Suppress any alert that has the specified alert tags and one or more specified point tag. Example: "dev".</li>--->
+<li><strong>Point Tags: </strong>Suppress any alert that has the specified alert tags and one or more specified point tag. Example: "dev".</li>
 <li><strong>Sources: </strong>Type one or more source names to suppress any alert on a source that has a matching source. Example: "app-14"</li>
 <li><strong>Source Tags: </strong>Type one or more source tag names to suppress any alert on a source that has a matching <a href="tags_overview.html">source tag</a>. </li>
 </ul>
 
-<!---![set maintenance window scope](/images/maint_window_2.png)
+![set maintenance window scope](/images/maint_window_2.png)
 
 #### Step 3: Specify Alert Notification Behavior
 
@@ -103,7 +103,7 @@ By default, no alert notifications are sent during the maintenance window. The a
 
 ![set maintenance window alert notification behavior](/images/maint_window_3.png)
 
---->
+
 
 ### Maintenance Window Example
 
@@ -136,7 +136,7 @@ You can extend the duration of a maintenance window. To extend one or more maint
 <td width="60%">
 <ol><li>Select <strong>Browse > Maintenance Windows</strong>. </li>
 <li>Select the check boxes next to the maintenance windows to be extended.</li>
-<li>Click the <strong>Extend</strong> drop-down menu and select the desired duration and confir.</li>
+<li>Click the <strong>Extend</strong> drop-down menu and select the desired duration.</li>
 </ol></td>
 <td width="40%"><img src="/images/extend_maintenance_window.png" alt="extend menu with extend time choices"></td>
 </tr>
@@ -153,7 +153,7 @@ You can close the window before it is scheduled to finish. To close one or more 
 2. Select the check boxes next to the maintenance windows to be closed.
 3. Click the **Close** button and confirm.
 
-To close a single maintenance window, click the ellipsis icon on the left of the window and click **Close**.
+To close a single maintenance window, click the ellipsis icon on the left of the window and click **Close** and confirm.
 
 ### Editing or Deleting a Maintenance Window
 
