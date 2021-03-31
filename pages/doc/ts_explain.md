@@ -41,21 +41,22 @@ In this Beta version, the `explain()` function is disabled by default.
 
 ## How to Use the `explain()` Function
 
-Let's consider that you have the Telegraf integration set up and running.
 
-1. The following query returns the metrics for Telegraf CPU usage per guest.
+1. The following sample query returns the CPU usage percentage for the production environment.
 
     ```
-    ts("telegraf.cpu.usage.guest")
+    ts(~sample.cpu.usage.percentage, env=production) 
     ```
 
 2. If the query is running slowly, apply the `explain ()` function.
 
     ```
-    explain(ts("telegraf.cpu.usage.guest"))
+    explain(ts(~sample.cpu.usage.percentage,  env=production))
     ```
 
     You can see the resulting trace ID under the Query Editor.
+    
+    ![Explain function result showing a trace ID](images/explain_function.png)
 
 3. Copy the trace ID and navigate to **Applications** > **Traces**. 
 4. Click **Trace ID** in the top left and paste the trace ID.
@@ -67,7 +68,10 @@ Once the query trace is loaded, you can see the query critical path. It shows ho
 Span details for each call include:
 
 * Application tags. These are the application, service, cluster, and shard, as selected by the trace query.
-* Other tags, including the trace ID. Expand the **Tags** section to see more information about the query itself and investigate further. You can see the query itself, the user, start time and end time, overall time of the call (execution, compiling and planning, or both), the points scanned, and so on.
+* Other tags, including the trace ID. Expand the **Tags** section for the query parent call to see more information about the query itself and investigate further. For example, you can see information, such as:
+  * The query start time and end time
+  * The points scanned
+  * The CPU seconds the call takes
 * A clickable link to the corresponding Operation Dashboard that lets you examine the RED metrics associated with the call.
 
 For details about trace details and critical paths, see [Traces Browser](tracing_traces_browser.html).
