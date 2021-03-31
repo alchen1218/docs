@@ -378,6 +378,10 @@ entries:
         - title: Combining Series With join()
           url: /query_language_series_joining.html
           output: web
+          
+        - title: Investigating Slow Queries with the explain() Function (Beta)
+          url: /query_language_explain_function.html
+          output: web
 
         - title: Highlighting Trends
           url: /query_language_windows_trends.html
