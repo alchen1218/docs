@@ -3,6 +3,7 @@ title: Investigating Slow Queries with the explain() Function (Beta)
 keywords: query language, explain function
 tags: [query language]
 sidebar: doc_sidebar
+published: false
 permalink: query_language_explain_function.html
 summary: How to investigate slow or large queries with the explain() function.
 ---
@@ -10,7 +11,7 @@ summary: How to investigate slow or large queries with the explain() function.
 ## Summary
 
 ```
-explain(<tsExpression>[,metrics|sources|sourceTags|pointTags|<pointTagKey>])
+explain(<tsExpression>)
 
 ```
 Returns a trace ID that allows you to search for the query traces, so that you can see how long it takes for the query with the respective trace ID to run.
@@ -26,16 +27,12 @@ Returns a trace ID that allows you to search for the query traces, so that you c
 <td markdown="span"> [tsExpression](query_language_reference.html#query-expressions)</td>
 <td>Expression that describes the time series for which you want to obtain the trace ID. </td>
 </tr>
-<tr><td>metrics&vert;sources&vert;sourceTags&vert;pointTags&vert;&lt;pointTagKey&gt;</td>
-<td>Optional 'group by' parameter for organizing the time series into subgroups and then returning a count for each subgroup.
-Use one or more parameters to group by metric names, source names, source tag names, point tag names, values for a particular point tag key, or any combination of these items. Specify point tag keys by name.</td>
-</tr>
 </tbody>
 </table>
  
 ## Description
 
-If you have slow or large queries, use the `explain()` function to capture the query trace ID. You can then navigate to **Applications** > **Traces**, search for the trace ID, and see how long it takes for the query to run.
+If you have slow or large queries, use the `explain()` function to capture the query trace ID. You can then navigate to **Applications** > **Traces**, search for the trace ID, see how long it takes for the query to run, and investigate further.
 
 In this Beta version, the `explain()` function is disabled by default. 
 
@@ -61,7 +58,7 @@ In this Beta version, the `explain()` function is disabled by default.
 3. Copy the trace ID and navigate to **Applications** > **Traces**. 
 4. Click **Trace ID** in the top left and paste the trace ID.
 5. Click **Search**.
-6. If you see no result within a short period of time, change the time window repeatedly. Refreshing the browser page or clicking the **Search** button multiple times doesn't work because it may show information that's in your browser cache.
+6. If you see no result within a short period of time, change the time window repeatedly. One to two minutes is the expected time for seeing the result as there's an ingestion delay. Refreshing the browser page or clicking the **Search** button multiple times doesn't work because it may show information that's in your browser cache.
 
 Once the query trace is loaded, you can see the query critical path. It shows how long the query compiling and planning takes, as well as how long it takes for the query to run. 
 
