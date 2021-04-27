@@ -62,7 +62,7 @@ To access AI Genie:
    When the Create Alert page displays, you see that the `anomalous` function is part of the query. You do some alert customization, but several settings are optimized for anomaly detection.
 
    ![anomaly alert](images/anomaly_save_as_alertpng.png)
-   s
+   
 4. Select **Forecasting** to explore forecasting for the current set of time series. You can customize the forecast period and confidence.
    - The selected forecast period determines the time window that the chart displays. We reserve 1/3 of the chart for the forecast, and two thirds of the chart for the history of the metric.
    - If you display confidence bands, they change as you select a different confidence factor.
