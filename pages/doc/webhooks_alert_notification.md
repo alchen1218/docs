@@ -98,7 +98,7 @@ The process for creating an alert target is similar for the different types of t
     </thead>
     <tr>
     <td><strong>Webhook</strong></td>
-    <td colspan="2">Alert target for sending notifications to messaging platforms such as Slack, VictorOps, or HipChat. This alert target defines the HTTP callback (POST request and URL) that is triggered when an alert changes state. </td>
+    <td>Alert target for sending notifications to messaging platforms such as Slack or VictorOps. This alert target defines the HTTP callback (POST request and URL) that is triggered when an alert changes state. </td>
     </tr>
     <tr>
     <td><strong>Email</strong></td>
@@ -120,7 +120,7 @@ The process for creating an alert target is similar for the different types of t
       </thead>
       <tr>
       <td><strong>URL</strong> </td>
-      <td markdown="span">REST endpoint of the messaging platform to receive the alert notification. You can follow the setup steps in [Slack Integration](slack.html), [VictorOps Integration](victorops.html), or [HipChat Integration](hipchat.html) to obtain a notification URL. The notification URL must be publicly accessible. </td>
+      <td markdown="span">REST endpoint of the messaging platform to receive the alert notification. You can follow the setup steps in [Slack Integration](slack.html) or [VictorOps Integration](victorops.html) to obtain a notification URL. The notification URL must be publicly accessible. </td>
       </tr>
       <tr>
         <td><strong>Content Type</strong></td>
@@ -138,7 +138,7 @@ The process for creating an alert target is similar for the different types of t
       </tr>
       <tr>
         <td><strong>Body Template</strong> </td>
-        <td markdown="span">Template describing the contents of the alert notification. Click **Template** and select the template that corresponds your messaging platform: **Slack**, **VictorOps**, or **HipChat**. Or, select **Generic Webhook** to see all of the available content options combined in a single template.</td>
+        <td markdown="span">Template describing the contents of the alert notification. Click **Template** and select the template that corresponds your messaging platform: **Slack** or **VictorOps**. Or, select **Generic Webhook** to see all of the available content options combined in a single template.</td>
       </tr>
       </tbody>
       </table>
@@ -228,7 +228,7 @@ To edit an alert, click the alert target name in the Alert Targets browser or cl
 
 ## Delete Custom Alert Targets
 
-To delete one or more custom alert targets, select the check boxes next to the alert targets, click the Trash icon <i class="fa fa-trash"/> at the top of the Alert Targets page, and confirm. The trash icon is grayed out if you don't have permission to delete any of the selected alert targets.
+You can delete one or more custom alert targets by selecting the check boxes next to the alert targets and clicking the Trash icon <i class="fa fa-trash"/> at the top of the Alert Targets page. The trash icon is grayed out if you don't have permission to delete any of the selected alert targets.
 
 To delete a single alert target, click the ellipsis icon on the left of the alert target, select **Delete** and confirm.
 
@@ -289,4 +289,15 @@ The response codes indicate if a webhook call was successful and if the webhook 
 ts(~alert.webhooks.*.*, name=<webhook_name>)
 ```
 
-If the response code of the webhook is anything other than 2xx, Wavefront creates an event with the name `<webhook_id>.<webhook_name>.<response_code>`.
+
+## Do More
+
+* [Customize the contents](alert_target_customizing.html) of the alert notifications using Moustache syntax.
+
+* Follow the steps in one of our integrations to set up a custom alert target. Log in to your Wavefront instance or look at the following doc pages:
+  - [PagerDuty Integration](pagerduty.html)
+  - [VictorOps Integration](victorops.html)
+  - [Slack Integration](slack.html)
+
+
+* Read our blog post [Engineering Tips Series: How Wavefront's DevOps Team Uses Alert Targets to Provide Exceptional Quality of Services to Customers](https://tanzu.vmware.com/content/vmware-tanzu-observability-blog/engineering-tips-series-how-wavefront-s-devops-team-uses-alert-targets-to-provide-exceptional-quality-of-services-to-customers) to learn how alert targets help Wavefront to keep things running smoothly.
