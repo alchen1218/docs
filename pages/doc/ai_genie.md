@@ -57,8 +57,13 @@ To access AI Genie:
    AI Genie opens in a new browser tab, with Anomaly Detection selected initially.
 2. With **Anomaly Detection** selected, you can customize the Display Settings, Historical Sample Size, and Sensitivity. You can focus on individual time series just as you do for other charts.
    For sensitivity, **High** means that there's a 67% chance that the data is anomalous, **Medium** means there's a 95% chance, and **Low** means there's a 99% chance.
-   <!--Margarita: I can't find the Save as new alert menu - tested in Nimba, demo.wavefront.com and my trial version, only learn more is available at the bottom of the page. Deleted the step-->
-3. Select **Forecasting** to explore forecasting for the current set of time series. You can customize the forecast period and confidence.
+3. Click **Save To > Save as New Alert** to save the anomaly query as an alert.
+   
+   When the Create Alert page displays, you see that the `anomalous` function is part of the query. You do some alert customization, but several settings are optimized for anomaly detection.
+
+   ![anomaly alert](images/anomaly_save_as_alertpng.png)
+   s
+4. Select **Forecasting** to explore forecasting for the current set of time series. You can customize the forecast period and confidence.
    - The selected forecast period determines the time window that the chart displays. We reserve 1/3 of the chart for the forecast, and two thirds of the chart for the history of the metric.
    - If you display confidence bands, they change as you select a different confidence factor.
 
