@@ -1,65 +1,22 @@
 ---
-title: Tanzu Observability by Wavefront Documentation
-keywords: homepage
+title: Tanzu Observability by Wavefront Documentation - from alchen's branch - from docs-63 - from docs-64-testing1
+keywords: homepage-newbranch-from-alan-docs-82sdf
 labels: getting started
 sidebar: doc_sidebar
 toc: false
 permalink: index.html
 ---
 
-<table style="width: 100%;">
-<tbody>
-<tr>
-<td width="10%">
-<img src="/images/tanzu_icon.jpeg"/>
-</td>
-<td width="90%">Welcome to the Tanzu Observability by Wavefront documentation site!
-<ul><li>
-Explore the documentation using the hierarchy on the left.</li>
-<li>Click a tile below. Each page has one or more labels -- click a tile to view all pages with that label.</li></ul>
-</td>
-</tr>
-</tbody>
-</table>
+Welcome to the Tanzu Observability by Wavefront documentation site!
 
-
-**Doc Feedback**? Use the button in the top right or do a PR in our [Wavefront docs GitHub repository](https://github.com/wavefrontHQ/docs/tree/master/pages/doc)
-
-## Get Started
-
-<table style="width: 100%;">
-<tbody>
-<tr>
-<td width="33%" align="center">
-<a href="tutorial_overview.html"><img src="/images/learn_icon_100.png" alt="icon"/></a>
-</td>
-<td width="33%" align="center" ><a href="tutorial_overview.html#learn-with-tutorials--videos"><img src="/images/camera_icon_100.png" alt="icon"/></a>  </td>
-<td width="33%" align="center"><a href="tutorial_overview.html#find-reference-documentation-faqs-and-best-practices"><img src="/images/api_icon_100.png" alt="icon"/></a></td>
-</tr>
-<tr>
-<td width="33%">Start with the basics or reference docs:
-<ul><li><a href="wavefront_introduction.html">What is Wavefront?</a> </li>
-<li><a href="query_language_reference.html">Query Language Reference</a>  </li>
-<li><a href="label_reference%20page.html">Individual Reference Pages</a> </li>
-</ul>
-</td>
-<td width="33%">Explore with <a href="tutorial_overview.html#learn-with-tutorials--videos">Tutorials or Videos</a></td>
-<td width="33%" >Look at the REST APIs
-<ul><li>On the <a href="https://code.vmware.com/apis/714/wavefront-rest"> VMware Code website</a></li>
-<li>Directly in your Wavefront cluster.</li></ul> </td>
-</tr>
-</tbody>
-</table>
-<!---
 * New users often start with [What is Wavefront?](wavefront_introduction.html).
 * Even if you don't read docs, check out the [Query Language Reference](query_language_reference.html) or [individual reference pages](label_reference%20page.html)
 * If you're a developer:
   - Find our REST APIs [on the VMware {code} website](https://code.vmware.com/apis/714/wavefront-rest) or directly from inside the product.
   - Look at our [public GitHub repositories](https://github.com/wavefrontHQ)
---->
+* Doc Feedback? Use the button in the top right or do a PR in our [Wavefront docs GitHub repository](https://github.com/wavefrontHQ/docs/tree/master/pages/doc)
 
-
-## Click a Tile - See Related Pages
+You can explore the documentation in the nav bar hierarchy on the left. Each topic also has one or more labels that offer a non-hierarchical way to browse. Click the buttons below to view all topics with that label.
 
 <div class="row">
  <div class="col-md-3 col-sm-6">
@@ -130,8 +87,8 @@ Explore the documentation using the hierarchy on the left.</li>
              </span>
          </div>
          <div class="panel-body">
-             <p><a href="label_dashboards.html" class="btn btn-primary btn-block">Dashboards</a></p>
-             <p>{{site.data.labels.dashboards}}</p>
+             <p><a href="label_charts.html" class="btn btn-primary btn-block">Charts</a></p>
+             <p>{{site.data.labels.charts}}</p>
          </div>
      </div>
  </div>
@@ -140,12 +97,12 @@ Explore the documentation using the hierarchy on the left.</li>
          <div class="panel-heading">
              <span class="fa-stack fa-1x">
                  <i class="fa fa-circle fa-stack-2x landing-text-primary"></i>
-                 <i class="fa fa fa-tasks fa-stack-1x fa-inverse"></i>
+                 <i class="fa fa-tachometer fa-stack-1x fa-inverse"></i>
              </span>
          </div>
          <div class="panel-body">
-             <p><a href="label_tracing.html" class="btn btn-primary btn-block">Tracing</a></p>
-             <p>{{site.data.labels.tracing}}</p>
+             <p><a href="label_dashboards.html" class="btn btn-primary btn-block">Dashboards</a></p>
+             <p>{{site.data.labels.dashboards}}</p>
          </div>
      </div>
  </div>
