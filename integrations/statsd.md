@@ -20,7 +20,7 @@ To see a list of the metrics for this integration, select the integration from <
 
 If you've already installed Wavefront Telegraf packages on a host, and want to run StatsD on the same host, skip to Step 2. Otherwise, install Telegraf using these steps:
 
-Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](http://wavefront.com/sign-up/?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
+Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](https://tanzu.vmware.com/observability?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
 
 ### Step 2. Configure the StatsD Service Plugin
 
@@ -77,5 +77,6 @@ $ echo "foo.bar.test3,hostname=mycustomsource:+1|g" | nc -u localhost 8125
 This command creates and increment a new gauge, but has a different source (`mycustomsource`) from the previous examples.
 
 For reference information about the Telegraf StatsD service plugin, see [Telegraf Service Plugin: statsd](https://github.com/influxdata/telegraf/tree/master/plugins/inputs/statsd).
+
 
 

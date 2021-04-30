@@ -13,7 +13,7 @@ Wavefront supports two methods for sending log data metrics to Wavefront proxy: 
 * When traffic is split between nodes, each node tracks its own counter. The counters collide when they are sent to Wavefront.
 * Information about the actual source (host) is lost.
 
-The [Create Metrics from Logs for Real-Time Cloud Application Monitoring](https://www.wavefront.com/creating-metrics-logs/){:target="_blank" rel="noopenner noreferrer"} blog post discusses a real example and complements this page.
+The [Create Metrics from Logs for Real-Time Cloud Application Monitoring](https://tanzu.vmware.com/content/vmware-tanzu-observability-blog/engineering-tips-series-create-metrics-from-logs-for-real-time-cloud-application-monitoring-without-breaking-your-bank) blog post discusses a real example and complements this page.
 
 ## Installing and Configuring a Wavefront Proxy
 
@@ -94,14 +94,22 @@ The Wavefront proxy includes these [patterns](http://github.com/wavefrontHQ/java
 
 #### Testing Grok Patterns in Interactive Mode
 
-To test grok patterns before sending data to Wavefront, you can run the proxy in test mode where it reads lines from stdin and prints the generated metric when there is a match with a pattern in `logsIngestionConfig.yaml`.  To run the proxy in test mode:
+To test grok patterns before sending data to Wavefront, you can run the proxy in test mode where it reads lines from stdin and prints the generated metric when there is a match with a pattern in `logsIngestionConfig.yaml`.  How you run the proxy in test mode depends on whether you're using the JVM bundled with the Wavefront proxy. In that case, if the proxy installer detects that java v8, 9, 10 or, 11 already exists in the users path that version of Java is used.
+
+To run in test mode with the bundled VM:
+
+```shell
+java -jar /opt/wavefront/wavefront-proxy/bin/wavefront-push-agent.jar -f /etc/wavefront/wavefront-proxy/wavefront.conf --testLogs < foo.txt
+```
+
+To run in test mode and specify the path explicitly:
 
 ```shell
 /opt/wavefront/wavefront-proxy/proxy-jre/bin/java -jar /opt/wavefront/wavefront-proxy/bin/wavefront-push-agent.jar \
   -f /etc/wavefront/wavefront-proxy/wavefront.conf --testLogs < foo.txt
 ```
 
-where `foo.txt` has, e.g.
+For both cases, `foo.txt` has, e.g.
 
 ```
 counter foo 42

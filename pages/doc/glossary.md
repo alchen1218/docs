@@ -216,6 +216,11 @@ You can manage authorization with user-level permissions or user and group-level
 </tr>
 <tr>
 <td>&nbsp;</td>
+<td markdown="span">**PPS**</td>
+<td markdown="span">Points per Seconds. Telemetry data points per second ingested by the Wavefront Service. All customers are billed based on their PPS. We support dashboards and tools to <a href="https://docs.wavefront.com/wavefront_usage_info.html">Find Actionable Usage Information</a>  </td>
+</tr>
+<tr>
+<td>&nbsp;</td>
 <td markdown="span">[**Proxy**](proxies.html)</td>
 <td markdown="span">A Wavefront proxy ingests metrics and forwards them to the Wavefront service in a secure, fast, and reliable manner. Using a Wavefront proxy has several benefits, but you can also send data to Wavefront using direct ingestion. </td>
 </tr>

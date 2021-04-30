@@ -27,7 +27,7 @@ This use case explains how to monitor applications in fairly static environments
 
 This integration uses the Prometheus input plugin for Telegraf. If you've already installed Telegraf on your server(s), you can skip to Step 2.
 
-Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](http://wavefront.com/sign-up/?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
+Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](https://tanzu.vmware.com/observability?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
 
 ### Step 2. Configure the Prometheus Input Plugin
 
@@ -39,17 +39,33 @@ Create a file called `prometheus.conf` in `/etc/telegraf/telegraf.d` and enter t
   ## An array of urls to scrape metrics from.
   urls = ["http://localhost:9100/metrics"]
 
-  ## Use bearer token for authorization
-  # bearer_token = /path/to/bearer/token
+  ## Metric version controls the mapping from Prometheus metrics into
+  ## Telegraf metrics.  When using the prometheus_client output, use the same
+  ## value in both plugins to ensure metrics are round-tripped without
+  ## modification.
+  ##
+  ##   example: metric_version = 1; deprecated in 1.13
+  ##            metric_version = 2; recommended version
+  metric_version = 2
+
+  ## Use bearer token for authorization. ('bearer_token' takes priority)
+  # bearer_token = "/path/to/bearer/token"
+  ## OR
+  # bearer_token_string = "abc_123"
+
+  ## HTTP Basic Authentication username and password. ('bearer_token' and
+  ## 'bearer_token_string' take priority)
+  # username = ""
+  # password = ""
 
   ## Specify timeout duration for slower prometheus clients (default is 3s)
   # response_timeout = "3s"
 
-  ## Optional SSL Config
-  # ssl_ca = /path/to/cafile
-  # ssl_cert = /path/to/certfile
-  # ssl_key = /path/to/keyfile
-  ## Use SSL but skip chain & host verification
+  ## Optional TLS Config
+  # tls_ca = /path/to/cafile
+  # tls_cert = /path/to/certfile
+  # tls_key = /path/to/keyfile
+  ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
 ```
 {% endraw %}
@@ -111,5 +127,6 @@ remote_write:
 Save the configuration file and restart Prometheus.
 
 See the [Integrating Prometheus with Wavefront](https://www.wavefront.com/integrating-prometheus-with-wavefront) blog for more information.
+
 
 

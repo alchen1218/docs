@@ -11,7 +11,7 @@ After your application sends [trace data](tracing_basics.html#wavefront-trace-da
 
 ## View Tracing Critical Path Data in Charts
 
-The Wavefront Traces Browser shows you all the spans that make up a trace. By examining the critical path, you can find operations that took a long time, decide which operations to optimize, and then examine optimization results. See [Traces Browser](tracing_ui_overview.html#traces-browser) for details.
+The Wavefront Traces Browser shows you all the spans that make up a trace. By examining the critical path, you can find operations that took a long time, decide which operations to optimize, and then examine optimization results. See [Traces Browser](tracing_traces_browser.html) for details.
 
 Starting with release 2020-38.x, you can view critical path data in Wavefront as histogram metrics and query them using the [`hs()` function](hs_function.html). 
 
@@ -124,7 +124,7 @@ Example: Create an alert to get notifications when the median value of the criti
 
 ## Use Spans to Examine Applications and Services
 
-Use the following operators to get details or find the relationship between services in an application and their operations using the `[spans()` function](spans_function.html).
+Use the following operators to get details or find the relationship between services in an application and their operations using the [`spans()` function](spans_function.html).
 
 <table>
   <colgroup>
@@ -253,13 +253,14 @@ To query traces, select **Applications > Traces** and navigate to the Traces Bro
 **Query traces using a trace ID**:
 1. Click **Trace ID** and enter the ID of the trace or traces you want to query.
     ![query traces by trace ID](images/tracing_query_by_trace_id.png)
+    {% include note.html content="Your trace ID needs to be in the UUID format (example: `00000000-0000-0000-1111-111111111111`). If you copy-paste a trace ID that is not in the UUID format, Wavefront transforms it for you." %}
 2. Click **Search** in the query bar.
 
 {{site.data.alerts.note}}
   You might not see search results:
   <ul>
-    <li>
-      If you search for a trace after 7 days because Wavefront retains trace data for 7 days.
+    <li markdown="span">
+      If you search for a trace after 7 days because Wavefront retains trace data for 7 days. <br/>Contact [support@wavefront.com](mailto:support@wavefront.com) to extend the retention period.
     </li>
     <li>
       If you search for a trace after 1 hour because you have enabled <a href="trace_data_sampling.html">intelligent sampling</a> for traces.
@@ -270,7 +271,7 @@ To query traces, select **Applications > Traces** and navigate to the Traces Bro
   </ul>
 {{site.data.alerts.end}}
 
-{% include tip.html content="To get the ID of a trace, go to the trace details panel, expand a service, and click **Tags**. See [Drill Down Into Spans and View Metrics and Span Logs](tracing_ui_overview.html#drill-down-into-spans-and-view-metrics-and-span-logs)." %}
+{% include tip.html content="To get the ID of a trace, go to the trace details panel, expand a service, and click **Tags**. See [Drill Down Into Spans and View Metrics and Span Logs](tracing_traces_browser.html#drill-down-into-spans-and-view-metrics-and-span-logs)." %}
 
 **Query traces using an operation**: 
 1. Click **Operation** and select an operation.
@@ -472,7 +473,7 @@ Query Builder works well for many use cases, but sometimes Query Editor is your 
 <tbody>
 <tr>
 <td width="40%">
-<ol><li>Select <strong>Applications &gt; Traces</strong> in the task bar to display the Traces Browser. </li>
+<ol><li>Select <strong>Applications &gt; Traces</strong> in the taskbar to display the Traces Browser. </li>
 <li>Click the icon to toggle to Query Editor:</li>
 <li>Type a query that includes the <a href="traces_function.html">traces() function</a>.</li>
 <li>Click <strong>Search</strong> to update the list of traces.</li>

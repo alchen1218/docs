@@ -24,7 +24,7 @@ This integration uses Telegraf's Exec input plugin to fetch the metrics from Che
 
 ### Step 1: Install the Telegraf Agent
 
-Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](http://wavefront.com/sign-up/?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
+Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](https://tanzu.vmware.com/observability?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
 
 ### Step 2: Download the Script
 
@@ -118,6 +118,7 @@ Create a `chef-nginx.conf` file in `/etc/telegraf/telegraf.d` and add configurat
 Execute the command `sudo telegraf --config /etc/telegraf/telegraf.conf --config-directory /etc/telegraf/telegraf.d` to run your Telegraf agent and push metrics to Wavefront.
   
 **NOTE:** Telegraf must run as a sudo user. If Telegraf runs as a service, the user under whom the service runs should have passwordless sudo capability.
+
 
 
 

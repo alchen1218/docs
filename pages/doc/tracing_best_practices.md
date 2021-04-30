@@ -1,7 +1,7 @@
 ---
 title: Tracing Best Practices
 keywords: data, distributed tracing
-tags: [tracing]
+tags: [tracing, best practice]
 sidebar: doc_sidebar
 permalink: tracing_best_practices.html
 summary: Best practices for collecting and sending trace data from an application to Wavefront.
@@ -32,11 +32,11 @@ The best practices on this page help you get optimal results from instrumenting 
 
 ## Best Practices for Sending Trace Data Through a Wavefront Proxy
 
-For reliable performance, use a Wavefront proxy to send trace data to Wavefront. A proxy is required with the Jaeger and Zipkin integrations. [Direct ingestion](direct_ingestion.html#proxy-or-direct-ingestion) might seem like an easy way to get results quickly, but the buffering and queing that the proxy performs is especially useful with trace data.
+For reliable performance, use a Wavefront proxy to send trace data to Wavefront. A proxy is required with the Jaeger and Zipkin integrations. [Direct ingestion](direct_ingestion.html#proxy-or-direct-ingestion) might seem like an easy way to get results quickly, but the buffering and queuing that the proxy performs is especially useful with trace data.
 
 ### Best Practices for Wavefront Observability SDKs
 
-1. [Install and configure the Wavefront proxy](tracing_instrumenting_frameworks.html#to-prepare-a-wavefront-proxy) with listener ports for metrics, histograms, and trace data. All three types of data are necessary for displaying RED metrics derived from spans.
+1. [Install and configure the Wavefront proxy](tracing_instrumenting_frameworks.html#to-prepare-for-using-a-wavefront-proxy) with listener ports for metrics, histograms, and trace data. All three types of data are necessary for displaying RED metrics derived from spans.
 
     **Note:** Configure the proxy with the `histogramDistListener=` property. You might overlook this property if you are already using a proxy that is configured for metrics.
 
@@ -209,7 +209,11 @@ Wavefront uses [indexing](trace_data_details.html#indexed-and-unindexed-span-tag
 
 ### Guidelines for Defining Custom Span Tags
 
-* Keep the cardinality of custom span tags low (< 1000 values per tag) and contact Wavefront support to request indexing for those span tags. Indexing is available only for low-cardinality custom span tags.
+* Do not have more than 25 custom span tags.
+
+* Do not have more than 100 values assigned to a span tag. Keep the cardinality of custom span tags low.
+
+* Contact Wavefront support to request indexing for those span tags. Indexing is available only for low-cardinality custom span tags.
 
 * If you are using a Wavefront OpenTracing SDK, define a span tag called `component`. Wavefront uses the `component`, `application`, and `service` tags to populate the Application Services page and each service-specific page.
 

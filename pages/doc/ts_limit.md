@@ -10,10 +10,12 @@ summary: Reference to the limit() function
 ```
 limit(<numberOfTimeSeries>[, <offsetNumber>], <tsExpression>)
 
+limit(<numberOfHistogramSeries>[, <offsetNumber>], <hsExpression>)
+
 limit(<numberOfTraces>, <tracesExpression>)
 ```
 
-You can use `limit()` with time series and with traces.
+You can use `limit()` with time series, histograms, or traces.
 
 <table style="width: 100%;">
 <colgroup>
@@ -24,6 +26,9 @@ You can use `limit()` with time series and with traces.
 <tr>
 <td markdown="span"> Time series filtering function</td>
 <td markdown="span">Limits the number of time series displayed for `tsExpression` in a time-series chart.</td></tr>
+<tr>
+<td markdown="span">Histogram series filtering function</td>
+<td markdown="span">Limits the number of histogram distributions displayed for `hsExpression` in a time-series chart.</td></tr>
 <tr>
 <td markdown="span">Traces filtering function</td>
 <td markdown="span">Limits the number of traces listed by `tracesExpression` in the Traces browser.</td>
@@ -49,7 +54,27 @@ You can use `limit()` with time series and with traces.
 <td markdown="span"> Specifies the index to start with.  </td></tr>
 <tr>
 <td markdown="span"> [tsExpression](query_language_reference.html#query-expressions)</td>
-<td>Expression that that describes the time series you want to filter.</td>
+<td>Expression that that describes the time series that you want to filter.</td>
+</tr>
+</tbody>
+</table>
+
+### Histogram Filtering Function
+
+<table>
+<tbody>
+<thead>
+<tr><th width="20%">Parameter</th><th width="80%">Description</th></tr>
+</thead>
+<tr>
+<td>numberOfHistogramSeries</td>
+<td>Number of histogram series that you want displayed. You can express this parameter as a number (e.g. 10) or a percentage (e.g. 17%). </td></tr>
+<tr>
+<td>offsetNumber</td>
+<td markdown="span"> Specifies the index to start with.  </td></tr>
+<tr>
+<td markdown="span"> [hsExpression](query_language_reference.html#query-expressions)</td>
+<td>Expression that that describes the histogram that you want to filter.</td>
 </tr>
 </tbody>
 </table>
@@ -66,29 +91,35 @@ You can use `limit()` with time series and with traces.
 <td>Number of traces that you want listed. Express this parameter as a number (e.g. 10). Do not specify a percentage. </td></tr>
 <tr>
 <td markdown="span"> [tracesExpression](query_language_reference.html#query-expressions)</td>
-<td>Expression that that describes the traces you want to filter. Includes a <a href="traces_function.html">traces() function.</a></td>
+<td>Expression that that describes the traces that you want to filter. Includes a <a href="traces_function.html">traces() function.</a></td>
 </tr>
 </tbody>
 </table>
 
 ## Description
 
-You can use `limit()`:
-* With time series as a filtering function.
-* With traces as a filtering function.
+You can use `limit()` as a filtering function with time series, series of [histogram distributions](hs_function.html), or [traces](trace_data_details.html).
+
 
 ### Time-Series Filtering Function
 
-The `limit()` function specifies the maximum number of time series that are returned by the `tsExpression` using the `numberOfTimeSeries`. For example, the following query limits the results of the `tsExpression` to at most 10 time series: 
+The `limit()` function lets you use the `numberOfTimeSeries` parameter to specify the maximum number of time series that are returned. For example, the following query returns at most 10 time series:
 
 ```limit(10, ts(~sample.mem.used.percentage))```
 
-Optionally, use `offsetNumber` to specify the starting index. For example, set `offsetNumber` to 5 to start with the 5th item. 
+Optionally, use `offsetNumber` to specify the starting index. For example, set `offsetNumber` to 5 to start with the 5th item.
 
+### Histogram Series Filtering Function
+
+The `limit()` function lets you use the `numberOfHistogramSeries` parameter to specify the maximum number of histogram series that are returned. For example, the following query returns at most 10 histograms:
+
+```limit(10, ts(~sample.mem.used.percentage))```
+
+Optionally, use `offsetNumber` to specify the starting index. For example, set `offsetNumber` to 5 to start with the 5th item.
 
 ### Traces Filtering Function
 
-The `limit()` traces filtering function specifies the maximum number of traces that are returned by the `tracesExpression` using `numberOfTraces`. For example, the following query limits the results of the `tracesExpression` to at most 50 traces: 
+The `limit()` function lets you use the `numberOfTraces` parameter to specify the maximum number of traces that are returned. For example, the following query returns at most 50 traces:
 
 ```limit(50, traces("beachshirts.styling.makeShirts"))```
 

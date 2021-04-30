@@ -17,10 +17,6 @@ Watch this video to listen to our co-founder Clement Pang talk about how Wavefro
 ## What Do You Want to Collect?
 
 Wavefront observability SDKs let you instrument your application to collect and send different kinds of observability data.
-For the most gain with the least amount of work:
-* Start with Wavefront SDKs for instrumenting frameworks, if your application uses any of the supported frameworks.
-* Introduce other Wavefront SDKs to augment areas of your code that are not be handled by a supported framework.
-
 
 <!--- Writer note: If you add any languages to this table, add links in the corresponding sections below. --->
 
@@ -58,7 +54,7 @@ For the most gain with the least amount of work:
 
 <tr>
 <td markdown="span">[Metrics SDK](#sdks-for-collecting-metrics-and-histograms)</td>
-<td align="justify">Implements a standard metrics library. Lets you define, collect, and report custom business metrics and histograms from any part of your application code.   </td>
+<td align="justify">Implements a standard metrics library. Lets you define, collect, and report custom business metrics, delta counters, and histograms from any part of your application code.   </td>
 <td>
 <ul>
   <li>
@@ -161,7 +157,7 @@ Wavefront provides OpenTracing SDKs for:
     </div>
   </div>
 
-  {% include tip.html content="If you need application observability, but don't want to instrument code for your Java microservices, use the [Wavefront Java Tracing Agent](https://github.com/wavefrontHQ/wavefront-opentracing-bundle-java). For more information, see [this blog post on the Wavefront Java Tracing Agent](https://www.wavefront.com/wavefront-tracing-agent-for-java/)." %}
+  {% include tip.html content="If you need application observability, but don't want to instrument code for your Java microservices, use the [Wavefront Java Tracing Agent](https://github.com/wavefrontHQ/wavefront-opentracing-bundle-java). For more information, see [this blog post on the Wavefront Java Tracing Agent](https://tanzu.vmware.com/content/vmware-tanzu-observability-blog/wavefront-introduces-java-tracing-agent-delivering-out-of-the-box-application-observability)." %}
 
 A Wavefront OpenTracing SDK derives [RED metrics](trace_data_details.html#red-metrics-derived-from-spans) from the spans that are sent from the instrumented application. These RED metrics show the request Rate, Errors, and Duration that are obtained from the reported spans. These out-of-the-box metrics are derived from your spans automatically, with no additional configuration or instrumentation on your part. You can view the RED metrics for each service's operations in [predefined charts](trace_data_details.html#predefined-charts).
 
@@ -172,7 +168,7 @@ Sample use cases:
 
 ## SDKs For Collecting Metrics and Histograms
 
-Wavefront provides SDKs that implement standard metrics libraries in popular programming languages. You use these SDKs to instrument critical areas in your code, to collect and send custom business metrics and histograms to Wavefront:
+Wavefront provides SDKs that implement standard metrics libraries in popular programming languages. You use these SDKs to instrument critical areas in your code, to collect and send custom business metrics, delta counters, and histograms to Wavefront:
 * You can use a metrics SDK alone, to instrument an entire application to report the metrics of your choice.
 * You can use a metrics SDK and a framework SDK to instrument any functions that are not handled by the instrumented framework.
 

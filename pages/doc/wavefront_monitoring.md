@@ -1,46 +1,65 @@
 ---
-title: Monitor Wavefront Service
+title: Monitor Your Wavefront Service
 tags: [administration, dashboards]
 sidebar: doc_sidebar
 permalink: wavefront_monitoring.html
-summary: Monitor and troubleshoot your Wavefront instance and examine version information.
+summary: Monitor and troubleshoot your Wavefront instance and see PPS info.
 ---
 
-If system performance seems to be deteriorating, you can examine your Wavefront instance and Wavefront proxy with the Wavefront system dashboard, and look at internal metrics to investigate the problem.
+You can use the Wavefront Usage integration dashboards to:
+* Get usage information for your Wavefront instance and Wavefront proxy.
+* Drill down into the metrics namespaces to discover trends.
+* Examine PPS (points per second) based on predefined ingestion policies.
+* See whether ingested metrics are at 95% of committed rate. Optionally get alerts if that happens.
 
-This page discusses monitoring your Wavefront instance. It includes a section about examining versions of dashboards and alerts. See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details on investigating proxy issues.
+In addition, you can create your own dashboards, charts, and alerts using internal metrics (discussed below) to investigate the problem.
 
-## Wavefront Internal Metrics Overview
+See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details on investigating proxy usage.
 
-Wavefront collects several categories of internal metrics. This section gives an overview, see [Using Internal Metrics to Optimize Performance ](wavefront_monitoring.html#using-internal-metrics-to-optimize-performance) below for details.
+## Learn About Wavefront Usage with Dashboards
 
-- `~alert*` - set of metrics that allows you to examine the effect of alerts on your Wavefront instance.
-- `~collector` - metrics processed at the collector gateway to the Wavefront instance. Includes spans.
-- `~metric` - total unique sources and metrics.  You can compute the rate of metric creation from each source.
-- `~proxy` - metric rate received and sent from each Wavefront proxy, blocked and rejected metric rates, buffer metrics, and JVM stats of the proxy. Also includes counts of metrics affected by the proxy preprocessor. See [Monitoring Wavefront Proxies](monitoring_proxies.html).
-- `~wavefront` - set of gauges that track metrics about your use of Wavefront.
-- `~http.api` - namespace for looking at API request metrics.
+The Wavefront Usage integration includes the following dashboards:
 
-If you have an [AWS integration](integrations_aws_metrics.html), metrics with the following prefix are available:
+<table style="width: 100%;">
+<tbody>
+<thead>
+<tr><th width="30%">Dashboard</th><th width="30%">Focus</th><th width="40%">Description</th></tr>
+</thead>
+<tr>
+<td><strong>Wavefront Service and Proxy Data</strong></td>
+<td>Examine <strong>usage data</strong>.</td>
+<td>Provides visibility into your use of the Wavefront service via internal metrics that Wavefront collects automatically. Preconfigured charts monitor the data ingestion rate for points, spans and distributions, the data scan rate, and different proxy metrics.</td></tr>
+<tr>
+<td><strong>Wavefront Namespace Usage Explorer</strong></td>
+<td>Explore metrics namespaces to see the <strong>trend</strong> of your metrics ingestion rate.</td>
+<td>Tracks the number of time series metrics received for the first 3 levels of your metric namespace. Also tracks the breakdown of histograms, spans and delta counters.</td></tr>
+<tr>
+<td><strong>Wavefront Ingestion Policy Explorer</strong></td>
+<td>In environments where ingestion policies are defined, investigate usage for <strong>each account and ingestion policy</strong>.</td>
+<td markdown="span">Provides a granular breakdown of Wavefront ingestion across your organization by ingestion policies, accounts, sources, and types. Use this dashboard to identify who is contributing the most to your Wavefront usage and manage your overall usage. You can implement [ingestion policies](ingestion_policies.html) if you see problems in this dashboard.</td></tr>
+<tr>
+<td><strong>Committed Rate and Monthly Usage (PPS P95)</strong></td>
+<td>Avoid <strong>exceeding the committed rate</strong> for your instance by exploring dashboards and creating alerts.
+</td>
+<td markdown="span">Displays a detailed breakdown of your monthly usage. Enables you to take appropriate action when usage reaches around 95% of your committed usage.</td></tr>
 
-- `~externalservices` - metric rates, API requests, and events from AWS CloudWatch, AWS CloudTrail, and AWS Metrics+.
+</tbody>
+</table>
 
-There's also a metric you can use to monitor ongoing events and make sure the number does not exceed 1000:
-- `~events.num-ongoing-events` - Returns the number of [ongoing events](events.html#event-states).
+<!---
+* **Wavefront Service and Proxy Data** provides visibility into your use of the Wavefront service via internal metrics that we collect for you automatically. Preconfigured charts monitor the data ingestion rate for points, spans and distributions, the data scan rate, and different proxy metrics.
+* **Wavefront Namespace Usage Explorer** tracks the number of metrics received for the first 3 levels of your metric namespace. You can also view the breakdown of histograms, spans and delta counters.
+* **Wavefront Ingestion Policy Explorer** provides a granular breakdown of Wavefront ingestion across your organization by ingestion policies, accounts, sources, and types. Use this dashboard to identify who is contributing the most to your Wavefront usage and manage your overall usage. You can implement [ingestion policies](ingestion_policies.html) if you see problems in this dashboard.
+* **PPS P95 Usage Dashboard** displays a detailed breakdown of your monthly usage. This enables you to take appropriate action when usage reaches around 95% of your target/committed usage.--->
 
-## Charts in the Wavefront Usage Integration Dashboard
+### Wavefront Service and Proxy Data Dashboard
 
-The [Wavefront Usage integration](system.html) provides the Wavefront System Usage dashboard that displays metrics that help you find reasons for system slowdown. You can examine many aspects or your Wavefront Instance. We'll look at  the following sections here:
-* Overall Data Rate
-* Wavefront Stats
-* AWS Integration
-* Ingestion Rate by Source
+The Wavefront Service and Proxy Data dashboard helps you find reasons for system slowdown.
 
-See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details on the following sections:
-* Proxy Health
-* Proxy Troubleshooting
+The charts show internal metrics information and allow you to examine many aspects of your Wavefront instance. See [Monitoring Wavefront Proxies](monitoring_proxies.html) for details on the **Proxy Health** and **Proxy Troubleshooting** sections.
 
-### Overall Data Rate
+
+#### Overall Data Rate
 
 The Overall Data Rate section shows the overall point rate being processed by the Wavefront servers.
 
@@ -62,13 +81,13 @@ These charts use the following metrics:
   - `~query.histograms_scanned`, the per-second rate at which histograms are being queried through dashboards, custom charts, or API calls
 
 
-### Wavefront Stats
+#### Wavefront Stats
 
 Charts that track the number of Wavefront users during various time windows, number of dashboards and alerts, and information about the types of alerts.
 
 ![wavefront metrics](images/wavefront_metrics.png)
 
-### AWS Integration
+#### AWS Integration
 
 If you have an [AWS integration](integrations_aws_metrics.html) and are ingesting AWS CloudWatch, CloudTrail, and API Metrics+ metrics into Wavefront, this section monitors the count of CloudWatch requests, API requests, the point rate, and events coming in from your integration.
 
@@ -82,7 +101,7 @@ The available metrics for the AWS integration are:
 - `~externalservices.cloudtrail.events` - number of CloudTrail events returned
 - `~externalservices.cloudwatch-cycle-timer` - time in milliseconds CloudWatch requests take to complete
 
-### Ingest Rate by Source
+#### Ingest Rate by Source
 
 This section gives insight into the shape of your data. It shows the total number of sources reporting. It also monitors the rate of metrics creation and breaks it down by source.
 
@@ -92,11 +111,82 @@ The metrics used in this section are:
 
 - `~metric.counter` - Number of metrics being collected. Does not include internal metrics.
 
-If you're interested in histogram ingestion by source, clone this dashboard and add a chart that uses the `~histogram.counter` metric.
+   If you're interested in histogram ingestion by source, clone this dashboard and add a chart that uses the `~histogram.counter` metric.
 
 - `~histogram.counter` - Number of histograms being collected. Does not include internal histogram data.
 
-## Using Internal Metrics to Optimize Performance
+
+### Wavefront Metric Namespace Breakdown Dashboard
+
+This dashboard helps you drill down into the metrics namespace and explore the **trend** of your metrics ingestion rate.
+
+Wavefront automatically tracks the number of metrics received for the first 3 levels of your metric namespace as delta counters, which can be queried with `cs(~metric.global.namespace.*)`. The period (`.`) character separates the levels. For example for a metric named disk.space.total.bytes, the first level is disk, the second is space, and the third is total. This dashboard includes chart to explore those metrics and trends.
+
+![screenshot of part of dashboard](/images/metrics_breakdown.png)
+
+### Wavefront Ingestion (PPS) Usage Dashboard
+
+This dashboard helps you investigate Wavefront usage for each user and ingestion policy.
+
+Wavefront supports creation of ingestion policies. You create policies and assign accounts (user or service accounts) to each policy and examine which teams use which part of total ingestion in this Ingestion (PPS) Usage dashboard. You can even drill down and examine usage of individual users.
+
+The dashboard includes a link to the **Ingestion Policies** page so you can create, examine, or modify [ingestion policies](ingestion_policies.html)
+
+![screenshot of part of the dashboard](/images/ingestion_pps_usage_breakdown.png)
+
+### Committed Rate and Monthy Usage (PPS P95) vs. Committed Dashboard
+
+This dashboards helps you monitor your **monthly usage** and ensure that you're not ingesting more PPS than your contracted rate allows.
+
+The dashboard gives a detailed breakdown of your Tanzu Observability monthly usage against commitment. When your usage reaches around 95% of your committed rate, you can then take appropriate action.
+
+For example:
+* Examine who is using a high percentage of the PPS in the  **Wavefront Ingestion Policy Explorer** dashboard.
+* Implement [ingestion policies](ingestion_policies.html).
+
+{% include note.html content="The information contained in this dashboard has a 24 hour latency."%}
+
+![screenshot of part of the dashboard](/images/p95_dashboard.png)
+
+## Scenario: Avoid Exceeding the Committed Rate
+
+Customers often tell us that they want to make sure they don't exceen their committed monthly PPS (points per second). Follow these steps to monitor usage and take corrective action.
+
+1. The new `Committed Rate and Monthy Usage (PPS P95) vs. Committed` dashboard includes charts that show how close you are to consuming 95% of your contracted rate. You can add alerts to charts in this dashboard to get notifications.
+2. If you need to reduce usage, you have several options:
+   * Start examining ingestion from the Wavefront Service and Proxy Data dashboard. The [internal metrics](wavefront_monitoring.html#internal-metrics-overview) shown in this dashboard highlight
+   * Use the **Wavefront Namespace Usage Explorer** dashboard to drill down into the metrics. Wavefront automatically tracks the number of metrics received for the first 3 levels of your metric namespace as delta counters, and this dashboard presents the metrics in an easy-to-use way.
+   * Finally, if you suspect that much of your usage comes from certain accounts (human or service accounts) consider setting up one or more ingestion policies. With these policies in place, each account cannot consume more than the rate that is preset in the policy.
+
+
+## Customize Usage Information with Wavefront Internal Metrics
+
+Wavefront collects several categories of internal metrics. They are used extensively in the different dashboards of the Wavefront Usage integration. You can:
+
+* Clone and modify one of the Wavefront Usage integration dashboards
+* Create your own dashboard, query these metrics in charts, and create alerts for these metrics.
+
+
+### Internal Metrics Overview
+
+We collect the following metrics.
+
+- `~alert*` - a set of metrics that allows you to examine the effect of alerts on your Wavefront instance.
+- `~collector` - metrics processed at the collector gateway to the Wavefront instance. Includes spans.
+- `~metric` - total unique sources and metrics.  You can compute the rate of metric creation from each source.
+- `~proxy` - metric rate received and sent from each Wavefront proxy, blocked and rejected metric rates, buffer metrics, and JVM stats of the proxy. Also includes counts of metrics affected by the proxy preprocessor. See [Monitoring Wavefront Proxies](monitoring_proxies.html).
+- `~wavefront` - set of gauges that track metrics about your use of Wavefront.
+- `~http.api` - namespace for looking at API request metrics.
+
+If you have an [AWS integration](integrations_aws_metrics.html), metrics with the following prefix are available:
+
+- `~externalservices` - metric rates, API requests, and events from AWS CloudWatch, AWS CloudTrail, and AWS Metrics+.
+
+There's also a metric you can use to monitor ongoing events and make sure the number does not exceed 1000:
+- `~events.num-ongoing-events` - returns the number of [ongoing events](events.html#event-states).
+
+
+### Useful Internal Metrics for Optimizing Performance
 
 A small set of internal metrics can help you optimize performance and monitor your costs. This section highlights some things to look for - the exact steps depend on how you're using Wavefront and on the characteristics of your environment.
 
@@ -118,7 +208,7 @@ Wavefront customer support engineers have found the following metrics especially
 <tr>
 <td markdown="span">~alert</td>
 <td markdown="span">~alert.checking_frequency.&lt;alert_id&gt;</td>
-<td markdown="span">Tracks how often a specified alert performs a check. See [Alert States](alerts_states_lifecycle.html#alert-states) for details.</td></tr>
+<td markdown="span">Tracks how often a specified alert performs a check. See [Alert States](alerts_states_lifecycle.html#what-are-alert-states) for details.</td></tr>
 <tr>
 <td markdown="span">~collector</td>
 <td markdown="span">~collector.points.reported <br> ~collector.histograms.reported <br>~collector.tracing.spans.reported<br>~collector.tracing.span_logs.reported <br> ~collector.tracing.span_logs.bytes_reported<br></td>
@@ -164,7 +254,7 @@ Examine the <strong>~http.api.v2.</strong> namespace to see the counters for spe
 
 If several slow queries are executed within the selected time window the Slow Query page can become long. Section links at the top left allow you to select a section. *The links display only after you have scrolled down the page.*
 
-## Examining Versions of Dashboards and Alerts
+## Examine Versions of Dashboards and Alerts
 
 Wavefront stores details about each version of each dashboard and each alert. That means you have an audit trail of changes. When someone saves changes to a dashboard or alert, we create a new version and track the changes, including details about the change and the user who made the change.
 

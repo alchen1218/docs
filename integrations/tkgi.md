@@ -29,12 +29,16 @@ In addition to setting up the metrics flow, this integration also installs a das
 3. In the right pane, check **Yes** to enable **Wavefront Integration** and enter the account information:
    * **Wavefront URL**: `https://YOUR_CLUSTER.wavefront.com/api`
    * **API Token**: `YOUR_API_TOKEN`
-     * **NOTE:** Refer [Generating an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token) for generating a token.
-   * **Wavefront Alert Recipient**: `A list of Email addresses &/or Wavefront Target IDs`
+     * **NOTE:** See [Generating an API Token](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token).
+   * **Wavefront Alert Recipient**: `A list of Email addresses and/or Wavefront Target IDs`
+     * **NOTE:** This field is required only for version 1.9.0 or earlier.
 4. Click the **Errands** tab and enable the **Create pre-defined Wavefront alerts** errand and the **Delete pre-defined Wavefront alerts** errand.
+   * **NOTE:** These options are required only for version 1.9.0 or earlier.
 5. Click **Save** to save the Wavefront configuration.
 6. Navigate back to the Installation dashboard and click **Apply Changes**.
 
 Wavefront monitoring will be active for any cluster that is created after you have saved the configuration settings and applied the changes.
 
 
+
+<h2>Alerts</h2>  <ul><li markdown="span"><b>Node memory usage high</b>:Alert for high usage of node memory</li><li markdown="span"><b>Node memory usage too high</b>:Alert for very high usage of node memory</li><li markdown="span"><b>Node CPU usage high</b>:Alert for high usage of node CPU</li><li markdown="span"><b>Node CPU usage too high</b>:Alert for very high usage of node CPU</li><li markdown="span"><b>Node storage usage high</b>:Alert for high usage of node storage</li><li markdown="span"><b>Node storage usage too high</b>:Alert for very high usage of node storage</li><li markdown="span"><b>Too many containers not running</b>:Alert for very high number of containers not running</li><li markdown="span"><b>Node unhealthy</b>:Alert for unhealthy node</li></ul>

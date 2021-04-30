@@ -24,7 +24,7 @@ You can choose automatic installation or manual installation and configuration.
 
 ### Install Wavefront Proxy and Telegraf Agent Automatically
 
-Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](http://wavefront.com/sign-up/?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
+Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](https://tanzu.vmware.com/observability?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
 
 ### Install and Configure Wavefront Proxy and Telegraf Agent Manually
 
@@ -90,3 +90,4 @@ This table has Telegraf integration metrics with its description. You can also s
 |telegraf.internal.write.metrics.filtered|Aggregate stats about the metrics dropped for all output plugins that are of the same input type. |
 |telegraf.internal.write.metrics.written|Aggregate stats about the metrics written for all output plugins that are of the same input type. |
 |telegraf.internal.write.write.time.ns|Aggregate stats about the write time for all output plugins that are of the same input type. |
+

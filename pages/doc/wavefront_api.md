@@ -17,17 +17,18 @@ All interactions between the Wavefront UI and your Wavefront instance occur thro
 
 The current version of the REST API is v2. You can access the API at `<wavefront_instance>/api/v2`. The v1 API (`<wavefront_instance>/api/`) was deprecated in 2017 and is no longer supported.
 
-**Note:** The Wavefront REST API is not the same as the `/api` endpoint that you specify for the Wavefront proxy.
+{% include note.html content="The Wavefront REST API is not the same as the `/api` endpoint that you specify for the Wavefront proxy."%}
+
 
 ## API Documentation (Wavefront Instance)
 
-Each Wavefront instance includes Swagger-generated documentation for the REST API. In our blog post [Did You Know that Our API Docs Are Alive](https://www.wavefront.com/wavefront-rest-api/) we explain how you can experiment with our API directly from this in-product documentation.
+Each Wavefront instance includes Swagger-generated documentation for the REST API. In our blog post [Did You Know that Our API Docs Are Alive](https://tanzu.vmware.com/content/vmware-tanzu-observability-blog/did-you-know-that-our-api-docs-are-alive) we explain how you can experiment with our API directly from this in-product documentation.
 
 To access the REST API documentation :
 
 1. Log in to your Wavefront instance.
 2. Display the doc from the UI or using a URL:
-  * From the Wavefront UI, click the gear icon <i class="fa fa-cog"/> at the top right of the task bar and select **API Documentation**.
+  * From the Wavefront UI, click the gear icon <i class="fa fa-cog"/> at the top right of the taskbar and select **API Documentation**.
   * Type `https://<your_cluster_name>.com/api-docs/ui/`
 
 
@@ -58,13 +59,19 @@ a411c16b-3cf7-4f03-bf11-8ca05aab898d
 
 To generate an API token:
 
-1. In the Wavefront UI, click the gear icon <i class="fa fa-cog"/>  at the top right of the task bar and select your username.
+1. In the Wavefront UI, click the gear icon <i class="fa fa-cog"/>  at the top right of the taskbar and select your username.
 2. At the bottom of your user profile, locate the section **API Access**.
 3. Click **Generate**. You can have up to 2 tokens at any given time.
    If you want to generate a new token but already have two tokens, then you must revoke one of the existing tokens.
 4. To revoke a token, click the **Revoke** link next to the token. If you run a script that uses a revoked token, the script returns an authorization error.
 
 ![Generate API Token](/images/generate_token.png)
+
+
+{% include warning.html content="Do not share your API token with anyone. The token provides full access to the API. Accounts that have the token can authenticate without a username/password."%}
+
+
+
 
 ### Example: Invoke the API Using curl
 
@@ -78,7 +85,9 @@ curl 'https://<wavefront_instance>/api/v2/alert' --header 'Authorization: Bearer
 
 Because we expose the Wavefront REST API via Swagger, you can generate a working implementation of the API for the programming language or CLI you want to use.
 
-**Note:** Using the default Swagger configuration settings might result in errors. Create your own configuration file instead, as in the following example for generating a Java client:
+{% include note.html content="Using the default Swagger configuration settings might result in errors. Create your own configuration file instead."%}
+
+Here's an example for generating a Java client:
 
 1. Create a file `swagger-config.json`. Here's an example:
 ```
@@ -101,6 +110,8 @@ Because we expose the Wavefront REST API via Swagger, you can generate a working
 
 The REST API supports the following objects corresponding to different categories of management tasks:
 
+- **Access Policy** - Lets you allow or deny access to embedded charts. For information, see [Allow or Deny Access to Embedded Charts](ui_sharing.html#ui_sharing.html#allow-or-deny-access-to-embedded-charts).
+- **Access** - Provides information on the access level of an entity. See [Notes on the Access Category](#access) below.
 - **Account (User and Service Account)** - Allows users with [Accounts, Groups & Roles permission](permissions_overview.html) to retrieve a list of all [accounts](users_roles.html), create, update, and delete accounts and manage permissions and groups associated with accounts.
 - **Alert** - Retrieve active, snoozed, in-maintenance, and invalid alerts. Users with [Alert permission](permissions_overview.html) can create and update alerts.
 - **ApiToken** - Allows users with [Accounts, Groups & Roles permission](permissions_overview.html) to retrieve, create, and manage API tokens. Used primarily in conjunction with service accounts.
@@ -125,3 +136,38 @@ The REST API supports the following objects corresponding to different categorie
 - **User** - Deprecated API. Use **Account (User and Service Account)** instead.
 - **UserGroup** - Allows users with [Accounts, Groups & Roles permission](permissions_overview.html) to retrieve a list of all groups, create, update, and delete groups, and manage the users and roles associated with a group.
 - **Webhook** - Retrieve webhooks. Users with [Alert Management permission](permissions_overview.html) can create, update, and delete webhooks.
+
+<a name="access"></a>
+### Notes on the Access Category
+
+The `/api/access/{entity}` endpoint provides information on how often an entity has been accessed.  Supported entities are metric, histogram, span.
+
+{% include note.html content="Wavefront uses a bloom filter to determine the access pattern. As a result, even if data access returns true, there’s a very low probability that data actually hasn't been accessed. If data access returns false, it is guaranteed that the data has not been accessed.
+"%}
+
+This GET endpoint has the following parameters:
+
+<table>
+<tbody>
+<thead>
+<tr><th width="30%">Parameter</th><th width="70%">Description</th></tr>
+</thead>
+<tr>
+<td>name</td>
+<td>Entity name,  e.g, cpu.usage (for a metric).</td></tr>
+<tr>
+<td>hostPrefix</td>
+<td>Prefix of the host name, e.g. you can use test-2a-app67 if the whole host name is test-2a-app57-id-12345 <br>
+<strong>Warning:</strong>hostPrefix must be somewhat specific. There's a limit on how many hosts Wavefront scans.</td></tr>
+<tr>
+<td>usageThresholdDays</td>
+<td>How many days to look back. 7 days by default.</td></tr>
+<tr>
+<td>includeDailyDetail</td>
+<td>Whether to provide additional data on daily usage. False by default.
+<ul><li>If includeDailyDetail is false, GET returns true if the data has been accessed in the past usageThresholdDays, and false otherwise. </li>
+<li>If includeDailyDetail is true, GET returns daily access details. </li>
+</ul>
+</td></tr>
+</tbody>
+</table>

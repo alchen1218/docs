@@ -40,7 +40,7 @@ When an account is created in Wavefront, the user can perform the following task
 
 ### New User Permissions
 
-Administrators can view and modify new user default permissions and new user default groups from the gear icon (**System Preferences > New User Defaults**).
+Administrators can view and modify new user default permissions and new user default groups from the gear icon (**Organization Settings > New User Defaults**).
 
 ## Setting Default Permissions for New Users
 
@@ -52,7 +52,7 @@ Because all new users are assigned to the Everyone group, permissions change for
 
 <strong>Option 2: Create a Group for new user permissions</strong>
 1. Create a group and assign the permissions you want for each new user.
-2. From the gear icon, select **System Preferences**.
+2. From the gear icon, select **Organization Settings**.
 3. Select the **New User Defaults** tab and type the user group name in the **Default User Groups** field.
 
 ## Granting and Revoking Permissions for Groups
@@ -60,7 +60,7 @@ Because all new users are assigned to the Everyone group, permissions change for
 To manage permissions for groups:
 1. Click the gear icon and select **User Group Management**.
 2. Click the group you want to change.
-3. Select or deselect checkboxes for the permissions you want to change and click **Save**.
+3. Select or deselect check boxes for the permissions you want to change and click **Save**.
 
 
 ## Granting and Revoking Permissions for Users
@@ -68,6 +68,6 @@ To manage permissions for groups:
 To manage permissions for users:
 1. Click the gear icon and select **Account Management**.
 2. Click the user you want to change.
-3. Select or deselect checkboxes for the permissions you want to change and click **Update**.
+3. Select or deselect check boxes for the permissions you want to change and click **Update**.
 
 **Note:** If a user has a permission because of group membership, the check box for that permission is disabled for edit. Remove the user from the group that granted that permission to revoke the permission.

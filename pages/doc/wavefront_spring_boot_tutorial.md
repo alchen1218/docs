@@ -1,7 +1,7 @@
 ---
 title: Wavefront for Spring Boot Tutorial
 keywords:
-tags: [best practice]
+tags: [tutorials]
 sidebar: doc_sidebar
 permalink: wavefront_springboot_tutorial.html
 summary: Configure Wavefront for Spring Boot with a sample application.
@@ -34,14 +34,14 @@ Let's take a look at how you can configure your Spring Boot application with Wav
 
 ## Send Data to Wavefront
 
-1. Open the sample pet clinic application using an IDE and add the following code:
+1. Open the sample pet clinic application using an IDE and add the following code to the `pom.xml` file:
     ```
     <dependency>
       <groupId>com.wavefront</groupId>
       <artifactId>wavefront-spring-boot-starter</artifactId>
     </dependency>
     ```
-1. Import the Wavefront for Spring Boot Bill of Materials (BOM) to your project.
+1. Import the Wavefront for Spring Boot Bill of Materials (BOM) to your project. Add the following code to the `pom.xml` file:
     {{site.data.alerts.tip}}
       <p> Spring Boot version 2.3.4 is used for this tutorial. If you are using another version make sure the Wavefront for Spring Boot dependency is compatible with the Spring Boot release version. See <a href="wavefront_springboot.html#versionCompatibility">System Requirements</a> to get the correct dependency version.</p>
     {{site.data.alerts.end}}
@@ -50,16 +50,17 @@ Let's take a look at how you can configure your Spring Boot application with Wav
     <dependencies>
       <dependency>
         <groupId>com.wavefront</groupId>
-        <artifactId>wavefront-spring-boot</artifactId>
+        <artifactId>wavefront-spring-boot-bom</artifactId>
         <version>2.0.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
     </dependencies>
-    </dependencyManagement>  
+    </dependencyManagement>
     ```
 
-1. Add the following dependency to send trace data to Wavefront using Spring Cloud Sleuth or OpenTracing.
+1. Add the following dependency to send trace data to Wavefront using Spring Cloud Sleuth or OpenTracing. Pick either Spring Cloud Sleuth or OpenTracing and use it across all your microservices.
+
     <ul id="profileTabs" class="nav nav-tabs">
         <li class="active"><a href="#sleuth" data-toggle="tab">Spring Cloud Sleuth</a></li>
         <li><a href="#opentracing" data-toggle="tab">OpenTracing</a></li>
@@ -94,10 +95,10 @@ Let's take a look at how you can configure your Spring Boot application with Wav
 &lt;scope&gt;import&lt;/scope&gt;
 &lt;/dependency&gt;
 .....
-&lt;dependencies&gt;
-&lt;dependencyManagement&gt;
+&lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
             </pre>
-            
+
             </li>
             </ol>
         </div>
@@ -159,8 +160,8 @@ When you click the link in the Spring Boot Inventory dashboard, you are taken to
   * Once in the Traces Browser, you see the traces from the application and the trace related to the error you created.
   * If you configured your application to send trace data using OpenTracing, you can see [span logs](#tracing_instrumenting_frameworks.html#span-logs) for the errors you triggered.
   ![Span logs for the pet clinic applciation](/images/springboot_span_logs_pet_clinic.png)
-  
-* View details specific to an application service, such as the Request, Error, and Duration (RED) metrics by clicking <img src="images/spring_boot_service_dashboard_from_tracing_browser.png" style="vertical-align:text-bottom;width:250px" alt="service dashboard"/> on the Traces Browser. See [Explore the Default Service Dashboard](tracing_ui_overview.html#explore-the-default-service-dashboard) for details.
+
+* View details specific to an application service, such as the Request, Error, and Duration (RED) metrics by clicking <img src="images/spring_boot_service_dashboard_from_tracing_browser.png" style="vertical-align:text-bottom;width:250px" alt="service dashboard"/> on the Traces Browser. See [Explore the Default Service Dashboard](tracing_service_dashboard.html) for details.
   {% include note.html content="<br/>When your application sends data for the first time, they appear after about 1 minute. If you see data from the **beachshirts** sample application, refresh the page or go to **Application** > **Application status** to view the status of your application."%}
   ![Wavefront Service dashboard](/images/springboot_service_dashboard.png)
 
@@ -172,5 +173,4 @@ When you click the link in the Spring Boot Inventory dashboard, you are taken to
 * You cannot save changes that you make to the preconfigured Spring Boot Inventory and Wavefront Service Dashboards. If you want custom dashboards, clone and edit it the Wavefront dashboard. For details, see [Create and Customize Dashboards](ui_dashboards.html).
 * Wavefront customers or trial users can create smart alerts that dynamically filter noise and find true anomalies. For details, see [Alerts](alerts.html).
     {% include note.html content="Alerts are not supported on this freemium cluster."%}
-  Alerts are not supported on the freemium cluster.
 * Try out the pet clinic application with the Micrometer. See [Wavefront for Spring Boot: Getting Started](https://tanzu.vmware.com/developer/guides/spring/spring-wavefront-gs/) for details.

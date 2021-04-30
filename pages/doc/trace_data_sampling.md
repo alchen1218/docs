@@ -17,8 +17,6 @@ Sampling can give you a good idea of how your application is behaving. In additi
 * Filter out "noise" traces so you can see what's important.
 * Limit the performance impact on network bandwidth and application response times.
 
-{% include note.html content="You can configure Wavefront to keep spans in storage for 7 or 30 days. Contact [support@wavefront.com](mailto:support@wavefront.com) to configure your span storage settings."  %}
-
 ## Wavefront Intelligent Sampling
 
 Wavefront automatically performs intelligent sampling to reduce the volume of ingested traces. The goals of intelligent sampling are to retain traces that are likely to be informative, and to discard traces that are redundant or otherwise not worth inspecting. 
@@ -136,7 +134,7 @@ You can set up explicit sampling strategies through a [Wavefront proxy](proxies.
 {% include note.html content="Explicit sampling through a proxy is supported in Wavefront proxy version 4.34 and above. If you have an older version, make sure to [upgrade your proxy to the latest version](proxies_installing.html#upgrade-a-proxy)."  %}
 
 1. On the proxy host, open the proxy configuration file `wavefront.conf` for editing. The [path to the file](proxies_configuring.html#paths) depends on the host. 
-2. Add the [traceSamplingRate](proxies_configuring.html#tracing-proxy-properties-and-examples) property, the [traceSamplingDuration](proxies_configuring.html#tracing-proxy-properties-and-examples) property, or both to the `wavefront.conf` file. In the following example, the `traceSamplingRate` property sends 10% of the spans that make up the trace, to Wavefront and the `traceSamplingDuration` property sets the minimum sampling duration to 45 milliseconds: 
+2. Add the [traceSamplingRate](proxies_configuring.html#tracing-proxy-properties-and-examples) property, the [traceSamplingDuration](proxies_configuring.html#tracing-proxy-properties-and-examples) property, or both to the `wavefront.conf` file. In the following example, the `traceSamplingRate` property sends 10% of the trace to Wavefront and the `traceSamplingDuration` property sets the minimum sampling duration to 45 milliseconds: 
     ```
     # Number from 0.0 to 1.0
     traceSamplingRate=.1

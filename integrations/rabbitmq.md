@@ -8,12 +8,9 @@ summary: Learn about the Wavefront RabbitMQ Integration.
 
 RabbitMQ is a popular open source message broker. This integration installs and configures Telegraf to send RabbitMQ metrics into Wavefront. Telegraf is a light-weight server process capable of collecting, processing, aggregating, and sending metrics to a [Wavefront proxy](https://docs.wavefront.com/proxies.html).
 
-In addition to setting up the metrics flow, this integration also installs a dashboard. Here's the node section of a dashboard displaying RabbitMQ metrics:
+In addition to setting up the metrics flow, this integration also installs a dashboard. Here's a preview of the dashboard:
 
-{% include image.md src="images/rabbitmq_node-1.png" width="80" %}
-{% include image.md src="images/rabbitmq_node-2.png" width="80" %}
-{% include image.md src="images/rabbitmq_node-3.png" width="80" %}
-
+{% include image.md src="images/rabbitmq_dashboard.png" width="80" %}
 
 To see a list of the metrics for this integration, select the integration from <https://github.com/influxdata/telegraf/tree/master/plugins/inputs>.
 ## RabbitMQ Setup
@@ -24,7 +21,7 @@ To see a list of the metrics for this integration, select the integration from <
 
 This integration uses the RabbitMQ input plugin for Telegraf. If you've already installed Telegraf on your server(s), you can skip to Step 2.
 
-Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](http://wavefront.com/sign-up/?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
+Log in to your Wavefront instance and follow the instructions in the **Setup** tab to install Telegraf and a Wavefront proxy in your environment. If a proxy is already running in your environment, you can select that proxy and the Telegraf install command connects with that proxy. Sign up for a [free trial](https://tanzu.vmware.com/observability?utm_source=docs.vmware.com&utm_medium=referral&utm_campaign=docs-front-page){:target="_blank" rel="noopenner noreferrer"} to check it out!
 
 ### Step 2. Enable the RabbitMQ Management Plugin
 
@@ -64,5 +61,6 @@ Configure additional `[[inputs.rabbitmq]]` entries to monitor multiple RabbitMQ 
 ### Step 4. Restart Telegraf
 
 Run `sudo service telegraf restart` to restart your agent.
+
 
 

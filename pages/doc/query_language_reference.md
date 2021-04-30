@@ -11,7 +11,7 @@ The Wavefront Query Language allows you to extract the information you need from
 
 ## Query Expressions
 
-A query expression describes data of a particular type: time series, histogram series, events, traces or spans.
+A query expression describes data of a particular type: time series, histogram series, events, traces, or spans.
 
 <table style="width: 100%;">
 <colgroup>
@@ -42,7 +42,7 @@ Example:
 <strong>ts(~sample.disk.bytes.written, source="app-1" or source="app-2" and env="dev")</strong>
 </li>
 <li>A <strong>constant</strong>, which returns a constant value for each data point.
-Specify as a number, or use <a href="https://en.wikipedia.org/wiki/Metric_prefix">SI prefixes</a> (k, M, G, T, P, E, Z, Y) to scale by multiples of 1000. Examples:
+Specify as a number or use <a href="https://en.wikipedia.org/wiki/Metric_prefix">SI prefixes</a> (k, M, G, T, P, E, Z, Y) to scale by multiples of 1000. Examples:
 <br><strong>5.01</strong>
 <br><strong>40</strong>
 <br><strong>1M</strong> (or <strong>1000000</strong>)
@@ -95,7 +95,7 @@ align(10m, hs(users.settings.numberOfApiTokens.m))
 <tr>
 <td><span style="color:#3a0699;font-weight:bold">&lt;eventsExpression&gt;</span></td>
 <td>
-Describes a set of events.  An <strong>eventsExpression</strong> may be one of the following:
+Describes a set of events. An <strong>eventsExpression</strong> may be one of the following:
 
 <ul>
 <li>An <a href="events_queries.html"><strong>events() function</strong></a>, which returns all events that match the specified event filters.
@@ -189,7 +189,7 @@ lowpass(12ms, spans("beachshirts.styling.makeShirts"))
 
 ## Common Parameters
 
-Query expressions use a number of common parameters to specify names and values that describe the data of interest. You can use [wildcards](#wildcards-aliases-and-variables) to match multiple names or values.
+Query expressions use a number of common parameters to specify names and values that describe the data of interest. You can use [wildcards or partial regex](#partial-regex-wildcards-aliases-and-variables) to match multiple names or values.
 
 * Rules for valid names are here: [Wavefront Data Format](wavefront_data_format.html#wavefront-data-format-fields).
 * Enclose a metric, source, or tag name, or a tag value, in double quotes if it is also a Wavefront reserved word, such as a function name or keyword. For example, if you're using a point tag named `default`, use `"default"`.
@@ -213,6 +213,7 @@ Query expressions use a number of common parameters to specify names and values 
 cpu.load.metric
 cpu.*.metric
 cpu.load.metric or cpu.idle.metric
+/(cpu\.load\.metric|cpu\.idle\.metric)/
 </pre>
 </td></tr>
 <tr>
@@ -232,6 +233,7 @@ Examples:
 source="appServer15"
 source="app-1*"
 source="app-10" or source="app-20"
+source=/(app-10|app-20)/
 </pre>
 </td></tr>
 <tr>
@@ -242,6 +244,7 @@ Examples:
 tag="appServers"
 tag="env.cluster.role.*"
 tag="appServer" and tag="local"
+tag=/(appServer|local)/
 </pre>
 </td></tr>
 
@@ -253,6 +256,7 @@ Examples:
 region="us-west-2a"
 region="us-west*"
 region="us-west-2a" or region="us-west-2b"
+region=/(us-west-2a|us-west-2b)/
 </pre>
 
 </td></tr>
@@ -269,13 +273,18 @@ Example:
 source="appServer15"   // include only data from a source called appServer15
 </pre>
 </li>
-
-<li>Use  <strong>!=</strong> to specify a filter that is set to any value except the specified value.
-Example:
+<li>Use  <strong>!=</strong> to specify a filter that is set to any value except the specified value. Example
 <pre>
 source!="appServer15"  // include data from any source except appServer15
 </pre>
 </li>
+<li>Use  <strong>?=</strong> to get everything that has mytagvalue or doesn't have myTagKey.
+Example:
+<pre>
+myTagKey?="mytagvalue" // everything that has mytagvalue or doesn't have myTagKey
+</pre>
+</li>
+
 </ul>
 
 
@@ -285,11 +294,11 @@ source!="appServer15"  // include data from any source except appServer15
 
 <tr>
 <td><span style="color:#3a0699;font-weight:bold">&lt;timeWindow&gt;</span></td>
-<td>A measure of time, expressed as an integer number of units. You can specify:
+<td>A measure of time expressed as an integer number of units. You can specify:
 <ul>
-<li>Seconds, minutes, hours, days or weeks (1s, 1m, 1h, 1d, 1w). For example, <strong>3h</strong> specifies 3 hours.</li>
+<li>Seconds, minutes, hours, days, or weeks (1s, 1m, 1h, 1d, 1w). For example, <strong>3h</strong> specifies 3 hours.</li>
 <li> Time relative to the window length of the chart you are currently looking at (1vw).
-If you are looking at a 30 minute window, <strong>1vw</strong> is one view-window length, and therefore equivalent to <strong>30m</strong>. </li>
+If you are looking at a 30-minute window, <strong>1vw</strong> is one view-window length, and therefore equivalent to <strong>30m</strong>. </li>
 <li>Time relative to the bucket size of the chart (1bw). Wavefront calculates bucket size based on the view window length and screen resolution. You can see bucket size at the bottom left of each chart.</li>
 </ul>
 The default unit is minutes if the unit is not specified.
@@ -305,12 +314,13 @@ The default unit is minutes if the unit is not specified.
 </tbody>
 </table>
 
-## Wildcards, Aliases, and Variables
+## Partial Regex, Wildcards, Aliases, and Variables
 
-You can use wildcards as shortcuts for specifying multiple names or values.
-You can use query line variables, aliases, and dashboard variables as shortcuts for building queries out of other expressions or predefined strings.
-
-You can combine wildcards, aliases, query line variables, and dashboard variables in the same query line.
+You can:
+* Use partial regex to specify patterns that need to be matched when building a query.
+* Use wildcards as shortcuts for specifying multiple names or values.
+* Use query line variables, aliases, and dashboard variables as shortcuts for building queries out of other expressions or predefined strings.
+* Combine wildcards, aliases, query line variables, and dashboard variables in the same query line.
 
 <table style="width: 100%;" id="wildcardAliasVariable">
 <colgroup>
@@ -324,6 +334,89 @@ You can combine wildcards, aliases, query line variables, and dashboard variable
 </tr>
 </thead>
 <tbody>
+
+<!--- Partial Regex -------->
+
+  <tr>
+    <td>
+      <span style="color:#3a0699;font-weight:bold">partial regex</span>
+    </td>
+    <td>
+      Filter metrics, sources, source tags, or point tag values using a subset of regular expressions. You wrap regular expressions in <code>/ /</code> characters. For example, <code>/&lt;regular_expression&gt;/</code>.
+      
+      <br/><br/>The list of supported regular expression characters and quantifiers:
+<pre>
+.     : any character (but newline)
+*     : previous character or group, repeated 0 or more times
++     : previous character or group, repeated 1 or more times
+?     : previous character or group, repeated 0 or 1 times
+[xyz] : any character contained within the brackets
+[a-z] : characters between a and z. Specify a range of characters using a hyphen
+\     : prevents interpretation of the special character that follows
+|     : or
+(  )  : start/end of group
+</pre>
+      
+      {{site.data.alerts.important}}
+      <ul> 
+        <li>
+          Characters, such as <code><b>~</b>, <b>^</b>, <b>{ }</b>, and <b>$</b></code> are not supported regular expression characters. Therefore, you need to escape these characters if they are present in the string you are trying to match. 
+          <br/>Example: You need to escape the <code>~</code> character.
+<pre>
+ts(/\~sample\.cpu.usage.*/)
+</pre>
+        </li>
+        <li>
+          All existing queries that use the <code>*</code> glob wildcard syntax continue to work as before.
+        </li>
+        <li>
+          If you use a regular expression in metric, tags, and host, wrap the whole expression in <code>/ /</code> characters.<br/>
+          <b>Supported</b>
+<pre>
+ts(customer.report.count, tag=/mon-(primary|secondary)/)
+</pre>
+          <b>Not supported</b>
+<pre>
+# a mixture in which part of the regular expression is wrapped in //
+ts(customer.report.count, tag=mon-/(primary|secondary)/) 
+
+# quotes when using the // characters
+ts(customer.report.count, tag="/mon-(primary|secondary)/")
+</pre>
+        </li>
+      </ul>
+      {{site.data.alerts.end}}
+      
+      Examples:
+      
+      <ul>
+        <li>
+          Get data that match <code>~wavefront.alert.active</code> or <code>~wavefront.alert.active_info</code> and has the source tag <code>data</code>:
+<pre>
+ts(/\~wavefront\.alert\.(active|active_info)/, tag=data) 
+</pre>
+        </li>
+        <li>
+          Get data that match <code>build.version</code> or <code>build.</code> and has the source tag <code>data</code>:
+<pre>
+ts(/build\.(version)?/, tag=data)
+</pre>
+        </li>
+        <li>
+          Get data of all the sources that follow the given pattern, e.g., app-0, app-12, app-30, and more:
+<pre>
+ts(~sample.cpu.usage.percentage, source=/app-[0-9]+/)
+</pre>
+        </li>
+        <li>
+          Get data from the metrics that have <code>request.latency</code> as the common prefix and has the tag <code>env=prod</code>:
+<pre>
+ts(/request\.latency.*/, env=prod)
+</pre>
+        </li>
+      </ul>
+    </td>
+  </tr>
 
 <!--- Wildcard ------------->
 <tr>
@@ -347,7 +440,7 @@ Examples:
 <li><strong>source="app-1&#42;"</strong> matches all sources starting with <code>"app-1"</code>, such as <code>app-10</code>, <code>app-11</code>, <code>app-12</code>, <code>app-110</code>, and so on.
  </li>
 
-<li><strong>region="&#42;"</strong> matches the time series that have the <code>region</code> point tag with any value, and filter out any time series without a <code>region</code> point tag.
+<li><strong>region="&#42;"</strong> matches the time series that have the <code>region</code> point tag with any value and filter out any time series without a <code>region</code> point tag.
  </li>
 
 <li><strong>not region="&#42;"</strong> finds any time series that do not have the <code>region</code> point tag.</li>
@@ -380,7 +473,7 @@ join(ts(cpu.load) AS ts1 JOIN ts(request.rate) AS ts2 ON ts1.env = ts2.env, ... 
   <li>An <a href="https://en.wikipedia.org/wiki/Allen%27s_interval_algebra">Allen's interval algebra operator</a>. For example: m, mi, o, s, d, f are not valid.</li>
   </ul>
 </li>
-<li>Alias names are case sensitive. For example, <strong>Sum</strong> is valid.</li>
+<li>Alias names are case-sensitive. For example, <strong>Sum</strong> is valid.</li>
 <li markdown="span">Put any numeric characters at the end of the alias name. For example, <strong>test123</strong> is valid, but <strong>1test</strong> and <strong>test4test</strong> are not valid.</li>
 </ul>
 </td></tr>
@@ -388,8 +481,8 @@ join(ts(cpu.load) AS ts1 JOIN ts(request.rate) AS ts2 ON ts1.env = ts2.env, ... 
 <!--- Query line variable ------------->
 <tr>
 <td><span style="color:#3a0699;font-weight:bold">query line variable</span></td>
-<td>Lets one query line refer to another for the same chart.
-The referenced query line must be named, and must contain a complete <strong>tsExpression</strong>.
+<td>Let's use one query line refer to another for the same chart.
+The referenced query line must be named and must contain a complete <strong>tsExpression</strong>.
 <ul>
 <li>Use the chart UI to name a query: <strong>myQuery</strong> </li>
 <li>Use this syntax to reference the named query in another query: <strong>${myQuery}</strong></li>
@@ -604,11 +697,11 @@ Filtering functions help you select a subset of the time series that are returne
 <tbody>
 <tr>
 <td markdown="span"><a href="ts_clampmax.html">clampMax(<strong>max</strong>, <strong>&lt;tsExpression&gt;</strong>)</a></td>
-<td>Changes any point larger than <strong>max</strong> to <strong>max</strong></td>
+<td>Changes any point larger than <strong>max</strong> to <strong>max</strong>.</td>
 </tr>
 <tr>
 <td markdown="span"><a href="ts_clampmax.html">clampMin(<strong>min</strong>, <strong>&lt;tsExpression&gt;</strong>)</a></td>
-<td>Changes any point smaller than <strong>min</strong> to <strong>min</strong></td>
+<td>Changes any point smaller than <strong>min</strong> to <strong>min</strong>.</td>
 </tr>
 <tr>
 <td markdown="span"><a href="ts_highpass.html"> highpass(<strong>&lt;tsExpression1&gt;</strong>, <strong>&lt;tsExpression2&gt;</strong>[, <strong>inner</strong>])</a></td>
@@ -631,16 +724,12 @@ Filtering functions help you select a subset of the time series that are returne
 <td>Returns 1 if <strong>tsExpression</strong> is &gt;= <strong>lower</strong> and &lt;= <strong>upper</strong>. Otherwise, returns 0. This function outputs continuous time series.</td>
 </tr>
 <tr>
-<td><a href="ts_downsample.html">downsample(<strong>&lt;timeWindow&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>)</a></td>
-<td>Returns the values in <strong>tsExpression</strong> that occur in each time window. For example: <strong>downsample(30m, ts(my.metric))</strong> returns the values of <strong>my.metric</strong> every half hour.</td>
-</tr>
-<tr>
 <td markdown="span"><a href="ts_align.html"> align(<strong>&lt;timeWindow&gt;</strong>,<strong>[mean|median|min|max|first|last|sum|count,]</strong> <strong>&lt;tsExpression&gt;</strong>)</a></td>
-<td>Groups the data values of a time series into buckets of size <strong>timeWindow</strong>, and returns one displayed value per bucket. Each returned value is the result of combining the data values in a bucket using the specified summarization method.</td>
+<td>Groups the data values of a time series into buckets of size <strong>timeWindow</strong> and returns one displayed value per bucket. Each returned value is the result of combining the data values in a bucket using the specified summarization method.</td>
 </tr>
 <tr>
 <td><a href="ts_topk.html">topk(<strong>&lt;numberOfTimeSeries&gt;</strong>,
-<br><strong>[mean|median|min|max|sum|count, [&lt;timeWindow&gt;,]]</strong> <strong>&lt;tsExpression&gt;</strong>)</a></td>
+<br><strong>[mean|median|min|max|sum|count|last, [&lt;timeWindow&gt;,]]</strong> <strong>&lt;tsExpression&gt;</strong>)</a></td>
 <td>Returns the top <strong>numberOfTimeSeries</strong> time series described by <strong>tsExpression</strong>. Ranking for a series is based on its last displayed data value or on data values summarized over a time window.</td>
 </tr>
 <tr>
@@ -650,7 +739,7 @@ Filtering functions help you select a subset of the time series that are returne
 </tr>
 <tr>
 <td><a href="ts_top.html">top(<strong>&lt;numberOfTimeSeries&gt;</strong>,
-<br><strong>[mean|median|min|max|sum|count, [&lt;timeWindow&gt;,]]</strong> <strong>&lt;tsExpression&gt;</strong>)</a></td>
+<br><strong>[mean|median|min|max|sum|count|last, [&lt;timeWindow&gt;,]]</strong> <strong>&lt;tsExpression&gt;</strong>)</a></td>
 <td>Returns 1 for the top <strong>numberOfTimeSeries</strong> time series described by <strong>tsExpression</strong>, and 0 for the remaining series. Ranking for a series is based on its last displayed data value or on data values summarized over a time window.</td>
 </tr>
 <tr>
@@ -710,7 +799,7 @@ Filtering functions help you select a subset of the time series that are returne
 Standard time functions can help you:
 * Analyze how time series change over time: `rate()`, `derive()`, `ratediff()`)
 * Compare current values to earlier or later values of the same time series: `lag()`, `lead()`, `at()`
-* Examine time series during particular time windows: `year()`, `month()`, `dayOfYear()` and so on
+* Examine time series during particular time windows: `year()`, `month()`, `dayOfYear()`, and so on
 
 <table style="width: 100%;">
 <colgroup>
@@ -778,11 +867,11 @@ Standard time functions can help you:
 </tr>
 <tr>
 <td><a href="ts_hour.html">hour(<strong>&lt;timezone&gt;</strong> <strong>&lbrack;,&lt;tsExpression&gt;&rbrack;</strong>)</a></td>
-<td>Returns the hour in the day in the specified timeZome. The values returned are integer only and are in the range 0-23. </td>
+<td>Returns the hour in the day in the specified timeZone. The values returned are integer only and are in the range 0-23. </td>
 </tr>
 <tr>
 <td><a href="ts_minute.html">minute(<strong>&lt;timezone&gt;</strong> <strong>&lbrack;,&lt;tsExpression&gt;&rbrack;</strong>)</a></td>
-<td>Returns the minute of the hour for the timestamp specified by timeZome. The values returned are integer only and are in the range 0-59. </td>
+<td>Returns the minute of the hour for the timestamp specified by timeZone. The values returned are integer only and are in the range 0-59. </td>
 </tr>
 <tr>
 <td><a href="ts_isToday.html">isToday(<strong>&lt;timezone&gt;</strong> <strong>&lbrack;,&lt;tsExpression&gt;&rbrack;</strong>)</a></td>
@@ -825,6 +914,10 @@ These functions output continuous time series, with the exception of `integral()
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><a href="ts_mvalues.html">mvalues(<strong>&lt;timeWindow&gt;, &lt;tsExpression&gt; &lbrack;,metrics|sources|sourceTags|pointTags|&lt;pointTagKey&gt;&rbrack;</strong>)</a></td>
+<td>Returns the number of unique values over the specified time window.</td>
+</tr>
 <tr>
 <td><a href="ts_mslope.html">mslope(<strong>&lt;timeWindow&gt;, &lt;tsExpression&gt;</strong>)</a></td>
 <td>Returns the per-second derivative of the linear regression of the time series over the specified time window.</td>
@@ -911,7 +1004,7 @@ These functions output continuous time series, with the exception of `integral()
 
 ## Missing Data Functions
 
-Missing data functions allow you to interpolate data points in time series that have gaps.
+Missing data functions allow you to interpolate data points in time series that have gaps. To check for missing functions see the [`missing()` function](ts_missing.html) and the [`exists()` function](ts_exists.html).
 
 <table style="width: 100%;">
 <colgroup>
@@ -930,7 +1023,7 @@ Missing data functions allow you to interpolate data points in time series that 
 <br><strong>&lt;defaultValue&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>&lbrack;<strong>.orElse(&lt;defaultIfNoData&gt;)</strong>&rbrack;)</a>
 </td>
 <td>Fills in gaps in each time series described by <strong>tsExpression</strong>, by inserting data points with the value <strong>defaultValue</strong>. Specify <strong>timeWindow</strong> to insert data for just a limited period of time after each existing point. Specify <strong>delayTime</strong> to allow a gap before the inserted data.<br /><br />
-Use the <strong>.orElse</strong> operator to specify a default value even if the time series did not report any values in the time window. </td>
+Use the <a href="ts_orelse.html"><strong>.orElse</strong> operator</a> to specify a default value even if the time series is obsolete or nonexistent. </td>
 </tr>
 <tr>
 <td><a href="ts_last.html">last(&lbrack;<strong>&lt;timeWindow&gt;,</strong>&rbrack; <strong>&lt;tsExpression&gt;</strong>)</a>
@@ -946,9 +1039,13 @@ Use the <strong>.orElse</strong> operator to specify a default value even if the
 <td><a href="ts_interpolate.html">interpolate(<strong>&lt;tsExpression&gt;</strong>)</a></td>
 <td>Fills in gaps in the time series described by <strong>tsExpression</strong>, by inserting a continuous linear interpolation of data points.</td>
 </tr>
+<tr>
+<td><a href="ts_orelse.html">.orElse(<strong>&lt;tsExpression&gt;</strong>)</a></td>
+<td>You can use the <code>.orElse()</code> operator to force the query to return a default value even if the time series is obsolete or nonexistent. You can enter a constant value wrapped in brackets, such as <code>orElse(5)</code>. You can also enter a timeseries for chained <code>.orElse()</code> statements, for example <code>.orElse(ts('my.metric'))</code>. 
+</td>
+</tr>
 </tbody>
 </table>
-
 
 <table style="width: 100%;">
 <tbody>
@@ -1201,21 +1298,21 @@ String manipulation functions can help you:
 <td>Returns the length of in the specified metadata string.</td>
 </tr>
 <tr><td><a href="ts_isblank.html">isEmpty(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Returns true if the specified metadata string is an empty string, and returns false otherwise.</td>
+<td>Returns true if the specified metadata string is an empty string. Otherwise, returns false.</td>
 </tr>
 <tr><td><a href="ts_isblank.html">isBlank(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Returns true if the specified metadata string is a blank character (<strong>" "</strong>), and returns false otherwise.</td>
+<td>Returns true if the specified metadata string is a blank character (<strong>" "</strong>).  Otherwise, returns false.</td>
 </tr>
 <tr><td><a href="ts_tolowercase.html">toLowerCase(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Converts all upper case characters to lower case in the specified metadata string. </td>
+<td>Converts all uppercase characters to lowercase in the specified metadata string. </td>
 </tr>
 
 <tr><td><a href="ts_tolowercase.html">toUpperCase(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Converts all lower case characters to upper case in the specified metadata string.</td>
+<td>Converts all lowercase characters to uppercase in the specified metadata string.</td>
 </tr>
 
 <tr><td><a href="ts_trim.html">trim(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Removes a single leading white space and/or a single trailing white space from the specified metadata string, but does not remove multiple leading or trailing white spaces.  </td>
+<td>Removes a single leading white space and/or a single trailing white space from the specified metadata string but does not remove multiple leading or trailing white spaces.  </td>
 </tr>
 <tr><td><a href="ts_trim.html">strip(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;tsExpression&gt;</strong>) </a></td>
 <td>Removes both leading and trailing white spaces from the specified metadata string.</td>
@@ -1227,33 +1324,33 @@ String manipulation functions can help you:
 <td>Removes trailing white spaces from the specified metadata string. </td>
 </tr>
 <tr><td><a href="ts_equals.html">equals(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;string&gt;</strong>", <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Returns true if the specified metadata string is equal ot the comparison string, and returns false otherwise. Both strings must match exactly. </td>
+<td>Returns true if the specified metadata string is equal to the comparison string. Otherwise, returns false otherwise. Both strings must match exactly. </td>
 </tr>
 <tr><td><a href="ts_equals.html">equalsIgnoreCase(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;string&gt;</strong>", <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td markdown="span">Ignores case and returns true if the specified metadata string matches the comparison string, and returns false otherwise. With this function `"string"` is equal to `"StRiNg"`. </td>
+<td markdown="span">Ignores case and returns true if the specified metadata string matches the comparison string> Otherwise, returns false. With this function `"string"` is equal to `"StRiNg"`. </td>
 </tr>
 <tr><td><a href="ts_equals.html">matches(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;stringOrRegex&gt;</strong>",  <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td markdown="span">Returns true if the specified metadata string matches the comparison string, and false otherwise. The comparison string can be a regular expression. With this function, `"us.*"` matches `"us-west-1"`.
+<td markdown="span">Returns true if the specified metadata string matches the comparison string. Otherwise, returns false. The comparison string can be a regular expression. With this function, `"us.*"` matches `"us-west-1"`.
 </td>
 </tr>
 <tr><td><a href="ts_startswith.html">startsWith(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;string&gt;</strong>", <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Returns true if the specified metadata string starts with the given string, and returns false otherwise.
+<td>Returns true if the specified metadata string starts with the given string. Otherwise, returns false.
  </td>
 </tr>
 <tr><td><a href="ts_startswith.html">endsWith(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;string&gt;</strong>",  <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Returns true if the specified metadata string ends with the given string, and returns false otherwise. </td>
+<td>Returns true if the specified metadata string ends with the given string. Otherwise, returns false. </td>
 </tr>
 <tr><td><a href="ts_indexof.html">indexOf(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;subString&gt;</strong>",  <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Finds the first occurrence of the specified substring in the metadata string, and returns the starting position of that occurrence.</td>
+<td>Finds the first occurrence of the specified substring in the metadata string and returns the starting position of that occurrence.</td>
 </tr>
 <tr><td><a href="ts_indexof.html">lastIndexOf(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;subString&gt;</strong>",  <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Finds the last occurrence of the specified substring in the specified metadata string, and returns the starting position of that occurrence. </td>
+<td>Finds the last occurrence of the specified substring in the specified metadata string and returns the starting position of that occurrence. </td>
 </tr>
 <tr><td><a href="ts_concat.html">concat(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;string&gt;</strong>",  <strong>&lt;tsExpression&gt;</strong>) </a></td>
 <td>Concatenates the specified string by adding it to the end of the specified metadata string. </td>
 </tr>
 <tr><td><a href="ts_contains.html">contains(<strong>metric|source|&lt;pointTagKey&gt;</strong>, "<strong>&lt;subString&gt;</strong>",  <strong>&lt;tsExpression&gt;</strong>) </a></td>
-<td>Compares a string extracted from an expression to a specified string, and returns true if the extracted string contains the specified string and false otherwise.  </td>
+<td>Compares a string extracted from an expression to a specified string and returns true if the extracted string contains the specified string. Otherwise, returns false.  </td>
 </tr>
 <tr><td><a href="ts_charat.html">charAt(<strong>metric|source|&lt;pointTagKey&gt;</strong>, <strong>&lt;integer&gt;</strong>,  <strong>&lt;tsExpression&gt;</strong>) </a></td>
 <td>Returns the character at the specified position in the specified metadata string. </td>
@@ -1301,7 +1398,7 @@ Predictive functions enable you to forecast data values and find outlier data va
 <tr>
 <td><a href="ts_hw.html">hw(<strong>&lt;historyLength&gt;</strong> <strong>&lt; &lbrack;,seasonLength&gt;&rbrack;</strong>, <strong>&lt;samplingRate&gt;</strong>, <strong>&lt;tsExpression&gt;</strong> &lbrack;<strong>&lt;smoothingFactor&gt;, &lt;trendFactor&gt;, &lt;seasonalityFactor&gt;</strong>&rbrack;)</a>
 </td>
-<td>Returns a smoothed version of each time series described by the expression, and forecasts its future points using the Holt-Winters double exponential smoothing algorithm. Optionally supports the Holt-Winters triple exponential smoothing algorithm for seasonal data.</td>
+<td>Returns a smoothed version of each time series described by the expression, and forecasts its future points using the Holt-Winters double exponential smoothing algorithm. Optionally, supports the Holt-Winters triple exponential smoothing algorithm for seasonal data.</td>
 </tr>
 <tr>
 <td><a href="ts_nnforecast.html"><strong>nnforecast(&lt;forecastPeriod&gt;, [&lt;confidenceFactor&gt;,] &lt;tsExpression&gt;, [with_bounds])</strong></a>
@@ -1349,14 +1446,14 @@ Predictive functions enable you to forecast data values and find outlier data va
 </td>
 <td>Checks whether there are any data points in the specified time window.<ul>
 <li>If there are no data points, returns 1.</li>
-<li>Otherwise, returns a Double.NaN (i.e. empty time series)</li>
+<li>Otherwise, returns 0.</li>
 </ul></td>
 </tr>
 <tr>
 <td>
 <a href="ts_exists.html">exists(<strong>&lt;tsExpression&gt;</strong>)</a>
 </td>
-<td>Returns 1 if any time series described by the expression exists, and returns 0 otherwise.
+<td>Returns 1 if any time series described by the expression exists. Otherwise, returns 0.
 A time series exists if it has reported a data value in the last 4 weeks.  </td>
 </tr>
 <tr>
@@ -1393,7 +1490,7 @@ You use histogram query functions to access the histogram distributions that Wav
 
 ### Histogram to Histogram Functions
 
-Each function in the following table returns one or more series of histogram distributions, and can therefore be used as the **hsExpression** parameter in another query.
+Each function in the following table returns one or more series of histogram distributions and can therefore be used as the **hsExpression** parameter in another query.
 
 {% include note.html content="In a time-series chart, the histogram-to-histogram functions display just the median values of the returned distributions." %}
 
@@ -1425,7 +1522,7 @@ for example:<br>
 </tr>
 <tr>
 <td><a href="hs_merge.html">merge(<strong>&lt;hsExpression&gt;</strong><br>&lbrack;, <strong>metrics|sources|sourceTags|pointTags|&lt;pointTagKey&gt;</strong>&rbrack;)</a></td>
-<td>Merges the centroids and counts across the series of histogram distributions described by <strong>hsExpression</strong>, and returns one or more series of composite histogram distributions. <br>
+<td>Merges the centroids and counts across the series of histogram distributions described by <strong>hsExpression</strong> and returns one or more series of composite histogram distributions. <br>
 In a time-series chart, this function displays the median values of the merged distributions.
 </td>
 </tr>
@@ -1441,7 +1538,7 @@ In a time-series chart, this function displays the median values of the aligned 
 
 ### Histogram Input Conversion Functions
 
-Each histogram input conversion function in the following table takes histogram distributions as input, and returns the results as time series. You can therefore use a histogram conversion function as a **tsExpression** parameter in a time series query function.
+Each histogram input conversion function in the following table takes histogram distributions as input and returns the results as time series. You can therefore use a histogram conversion function as a **tsExpression** parameter in a time series query function.
 
 <table style="width: 100%;">
 <colgroup>
@@ -1526,6 +1623,11 @@ Each histogram output conversion function in the following table takes a time se
 <td>Returns a cumulative histogram that comes, for example, from Prometheus or Telegraf, in Wavefront. You can then visualize the histogram in Wavefront charts using functions such as <strong>percentile</strong>.
 </td>
 </tr>
+<tr>
+<td><a href="ts_frequencyHisto.html">frequencyHisto(&lbrack;<strong>timeWindow</strong>&rbrack;, &lbrack;<strong>&lt;bucketName&gt;, </strong> &rbrack; <strong>&lt;tsExpression&gt;</strong> &lbrack;<strong>,metrics|sources|sourceTags|pointTags|&lt;pointTagKey&gt;</strong> &rbrack;)</a></td>
+<td>Converts a histogram coming from Google Cloud Platform(GCP) to Wavefront histogram format. When GCP Detailed Histogram Metrics is enabled, Wavefront will additionally ingest bucket counts for GCP distributions, with metric namegcp.&lt;metric&gt;.bucket. Enabling this increases ingestion rate and cost.
+</td>
+</tr>
 
 
 </tbody>
@@ -1543,7 +1645,7 @@ Event functions let you filter and display [events](events.html).
 
 ### Event to Event Functions
 
-Each function in the following table returns a set of one or more events, and can therefore be used as the **eventsExpression** parameter in another query. Some functions filter an event set, so that only events you're interested in are displayed. Other functions return synthetic events, which are displayed by the query, but not stored in Wavefront.
+Each function in the following table returns a set of one or more events and can therefore be used as the **eventsExpression** parameter in another query. Some functions filter an event set, so that only events you're interested in are displayed. Other functions return synthetic events, which are displayed by the query, but not stored in Wavefront.
 
 <table style="width: 100%;">
 <colgroup>
@@ -1581,7 +1683,7 @@ Each function in the following table returns a set of one or more events, and ca
 </tr>
 <tr>
 <td><a href="event_since.html">since(<strong>&lt;eventsExpression&gt;</strong>)</a></td>
-<td>Returns synthetic ongoing events that start when the input events start, but have no end time.</td>
+<td>Returns synthetic ongoing events that start when the input events start but have no end time.</td>
 </tr>
 <tr>
 <td><a href="event_since.html">since(<strong>&lt;timeWindow&gt;</strong>)</a></td>
@@ -1616,7 +1718,7 @@ Each function in the following table returns a set of one or more events, and ca
 
 ### Events Conversion Functions
 
-Each events conversion function in the following table takes a set of events as input, and returns the results as a time series. You can therefore use an events conversion function as a **tsExpression** parameter in a time series query function.
+Each events conversion function in the following table takes a set of events as input and returns the results as a time series. You can therefore use an events conversion function as a **tsExpression** parameter in a time series query function.
 
 <table style="width: 100%;">
 <colgroup>
@@ -1652,7 +1754,7 @@ Each events conversion function in the following table takes a set of events as 
 
 You use traces functions to find and filter any [traces](tracing_basics.html#wavefront-trace-data) that your applications might be sending. Traces functions are available only in the [Query Editor of the Traces browser](trace_data_query.html#use-query-editor-power-users).
 
-Each function in the following table returns a set of one or more traces, and can therefore be used as the **tracesExpression** parameter in another function.
+Each function in the following table returns a set of one or more traces and can therefore be used as the **tracesExpression** parameter in another function.
 
 <table style="width: 100%;">
 <colgroup>
@@ -1736,6 +1838,44 @@ You use spans functions to find and filter individual [spans](tracing_basics.htm
 <tr>
 <td><a href="ts_lowpass.html">lowpass(<strong>&lt;spanDuration&gt;</strong>, <strong>&lt;spansExpression&gt;</strong>)</a></td>
 <td markdown="span">Filters the spans returned by **spansExpression** to include only spans that are shorter than **spanDuration**.
+</td>
+</tr>
+</tbody>
+</table>
+
+<table style="width: 100%;">
+<tbody>
+<tr><td width="90%">&nbsp;</td><td width="10%"><a href="query_language_reference.html"><img src="/images/to_top.png" alt="click for top of page"/></a></td></tr>
+</tbody>
+</table>
+
+
+## <span id="apdexFunctions"></span>Apdex Functions
+
+You can use the basic or advanced `apdex()` function to get the apdex score of a specific service.
+
+<table style="width: 100%;">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Function</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td>
+<a href="hs_apdex_function.html">apdex([T, | T, 4T, ]<strong>application=&lt;applicationName&gt;</strong>, <strong>service=&lt;serviceName&gt;</strong>, <strong>&lbrack; &lt;histogramSeries&gt;&rbrack;</strong></a>
+</td>
+<td markdown="span">Returns the apdex score of a specific service over time. Optionally supports histogram series.  </td>
+</tr>
+<tr>
+<td><a href="hs_apdex_latency_function.html">apdexLatency(<strong>application=&lt;applicationName&gt;, service=&lt;serviceName&gt;</strong> <strong>&lbrack;satisfied | tolerating&rbrack;</strong>)</a></td>
+<td markdown="span">Returns the apdex threshold defined for the service or application.
 </td>
 </tr>
 </tbody>
